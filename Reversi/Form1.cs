@@ -16,9 +16,10 @@ namespace WindowsFormsApplication2
         GameDrawer drawer;
         public Form1()
         {
-            this.logic = new GameLogic();
-            this.drawer = new GameDrawer(logic);
+            
             InitializeComponent();
+            this.logic = new GameLogic();
+            this.drawer = new GameDrawer(logic, this.Game_panel.Size);
         }
 
         private void Game_panel_Paint(object sender, PaintEventArgs e)
@@ -27,6 +28,12 @@ namespace WindowsFormsApplication2
             drawer.drawScreen(e.Graphics, c.Size);
             this.Invalidate();
 
+        }
+
+        private void Game_panel_MouseClick(object sender, MouseEventArgs e)
+        {
+            drawer.translateMove(e.Location);
+            this.Refresh();
         }
     }
 }

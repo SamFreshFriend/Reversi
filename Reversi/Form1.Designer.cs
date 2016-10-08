@@ -38,6 +38,7 @@
             this.Game_panel.Size = new System.Drawing.Size(550, 550);
             this.Game_panel.TabIndex = 0;
             this.Game_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.Game_panel_Paint);
+            this.Game_panel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Game_panel_MouseClick);
             // 
             // Form1
             // 

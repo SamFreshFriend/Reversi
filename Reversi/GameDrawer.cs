@@ -10,10 +10,18 @@ namespace WindowsFormsApplication2
     class GameDrawer
     {
         private int dimension;
+        private Size screen;
         private GameLogic logic;
-        public GameDrawer(GameLogic g)
+        public Size Screen {
+            set { this.screen = value; }
+        }
+        //public GameLogic Logic {
+        //    get { return this.logic; }
+        //}
+        public GameDrawer(GameLogic g, Size s)
         {
             this.logic = g;
+            this.Screen = s;
             this.dimension = logic.Dimensions;
 
 
@@ -28,6 +36,12 @@ namespace WindowsFormsApplication2
                     else if (this.logic.Field[x, y] == 2) gr.FillEllipse(Brushes.Red, x * cubeSize, y * cubeSize, cubeSize, cubeSize);
                 }
             }
+        }
+        public void translateMove(Point p) {
+            int x = p.X * this.dimension / this.screen.Width;
+            int y = p.Y * this.dimension / this.screen.Height;
+            this.logic.makeMove(x,y);
+
         }
 
 
