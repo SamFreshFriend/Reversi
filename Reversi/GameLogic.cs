@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WindowsFormsApplication2
 {
@@ -43,7 +44,14 @@ namespace WindowsFormsApplication2
 
 
         }
+        public void makeMove(Point p) {
+            int x = (int)p.X / this.dimensions;
+            int y = (int)p.Y / this.dimensions;
+            if (this.field[x, y] == 0) {
+                if(this.field[x,y] == 1)
 
+            }
+        }
         private void buildField()
         {
             this.field = new int[this.dimensions, this.dimensions];
