@@ -19,6 +19,7 @@ namespace WindowsFormsApplication2
         private int x;
         private int y;
         private bool[,] currentPossibilities;
+
         public bool[,] Possibilities
         {
             get
@@ -79,7 +80,7 @@ namespace WindowsFormsApplication2
                 for (int p = -1; p <= 1; p++)
                 {
                     try {
-                        if (field[x + i, y + p] == 0) continue;
+                        if (field[x + i, y + p] == field[x,y]) continue;
                         if (field[x + i, y + p] == opposite)
                         {
                             int x = this.x;
@@ -88,8 +89,9 @@ namespace WindowsFormsApplication2
                             {
                                 x += i;
                                 y += p;
+                                
                             }
-                            directions.Add(new Vector(i, p));
+                            if(field[x + i,y + p] == current)directions.Add(new Vector(i, p));
                         }
                     }
                     catch
@@ -105,6 +107,7 @@ namespace WindowsFormsApplication2
         {
             foreach (Vector v in vectorList)
             {
+                Console.WriteLine(v);
                 int i = (int)v.X;
                 int p = (int)v.Y;
                 int x = this.x;
@@ -119,71 +122,65 @@ namespace WindowsFormsApplication2
             }
         }
 
-        private bool checkNeighbours(int x, int y)
-        {
-            int count = 0;
-            for (int i = -1; i <= 1; i++)
-            {
+        //private bool checkNeighbours(int x, int y)
+        //{
+        //    int count = 0;
+        //    for (int i = -1; i <= 1; i++)
+        //    {
 
-                for (int p = -1; p <= 1; p++)
-                {
-                    try
-                    {
-                        count++;
-                        if (field[x + p, y + i] == field[x, y]) continue;
-                        if ((current == blue) ? field[x + p, y + i] == 2 : field[x + p, y + i] == 1)
-                        {
-                            Console.WriteLine("Count at finish  " + count.ToString());
-                            while (field[x + p, y + i] == 2)
-                            {
-                                x += p;
-                                y += i;
-                                Console.WriteLine("                                         " + x.ToString() + "  " + y.ToString());
-                            }
-                            Console.WriteLine("THis whopn:  " + field[x, y].ToString());
-                            return (field[x + p, y + i] == 1);
+        //        for (int p = -1; p <= 1; p++)
+        //        {
+        //            try
+        //            {
+        //                count++;
+        //                if (field[x + p, y + i] == field[x, y]) continue;
+        //                if ((current == blue) ? field[x + p, y + i] == 2 : field[x + p, y + i] == 1)
+        //                {
+        //                    Console.WriteLine("Count at finish  " + count.ToString());
+        //                    while (field[x + p, y + i] == 2)
+        //                    {
+        //                        x += p;
+        //                        y += i;
+        //                        Console.WriteLine("                                         " + x.ToString() + "  " + y.ToString());
+        //                    }
+        //                    Console.WriteLine("THis whopn:  " + field[x, y].ToString());
+        //                    return (field[x + p, y + i] == 1);
 
-                        }
-                        else if ((current == red) ? field[x + p, y + i] == 1 : field[x + p, y + i] == 2)
-                        {
-                            Console.WriteLine("Count at finish  " + count.ToString());
+        //                }
+        //                else if ((current == red) ? field[x + p, y + i] == 1 : field[x + p, y + i] == 2)
+        //                {
+        //                    Console.WriteLine("Count at finish  " + count.ToString());
 
-                            while (field[x + p, y + i] == 1)
-                            {
-                                x += p;
-                                y += i;
-                                Console.WriteLine("                                         " + x.ToString() + "  " + y.ToString());
-                            }
-                            Console.WriteLine("THis whopn:  " + field[x, y].ToString());
-                            return (field[x + p, y + i] == 2);
-                        };
-                        Console.WriteLine("Count at intermediate  " + count.ToString());
-                    }
-                    catch
-                    {
-                        continue;
-                    }
+        //                    while (field[x + p, y + i] == 1)
+        //                    {
+        //                        x += p;
+        //                        y += i;
+        //                        Console.WriteLine("                                         " + x.ToString() + "  " + y.ToString());
+        //                    }
+        //                    Console.WriteLine("THis whopn:  " + field[x, y].ToString());
+        //                    return (field[x + p, y + i] == 2);
+        //                };
+        //                Console.WriteLine("Count at intermediate  " + count.ToString());
+        //            }
+        //            catch
+        //            {
+        //                continue;
+        //            }
 
-                }
-            }
-            return false;
+        //        }
+        //    }
+        //    return false;
 
 
-        }
+        //}
 
         public void makeMove(int x, int y)
         {
-            //Console.WriteLine("Blue:    " + this.blue.ToString() + "   Red:    " + this.red.ToString());
-            ////Console.WriteLine(x.ToString() + "      " + y.ToString());
-            //Console.WriteLine(x.ToString() + "   " + y.ToString() + "   " + this.field[x, y].ToString());
-            //Console.WriteLine(x.ToString() + "   " + y.ToString() + "   " + this.checkNeighbours(x, y));
-
             this.x = x;
             this.y = y;
             if (this.field[x, y] == 0)
             {
                 List<Vector> vectorList = this.lookForNeighbours();
-
                 if (vectorList.Count != 0)
                 {
                     this.continueOnRoute(vectorList);
