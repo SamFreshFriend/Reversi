@@ -45,15 +45,15 @@ namespace WindowsFormsApplication2
         }
 
 
-        public void drawScreen(Graphics gr, Size sz)
+        public void drawScreen(Graphics gr)
         {
-            int CubeSize = sz.Width / this.dimension;
+            int CubeSize = this.screen.Width / this.dimension;
             for (int i = 1; i < this.dimension; i++)
             {
                 int x = CubeSize * i;
                 int y = CubeSize * i;
-                gr.DrawLine(Pens.Black, 0, y, sz.Width, y);
-                gr.DrawLine(Pens.Black, x, 0, x, sz.Height);
+                gr.DrawLine(Pens.Black, 0, y, this.screen.Width, y);
+                gr.DrawLine(Pens.Black, x, 0, x, this.screen.Height);
                 this.drawCircles(gr, CubeSize);
                 //for (int y = 1; y < this.logic.Dimensions; y++)
                 //{

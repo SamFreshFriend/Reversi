@@ -10,24 +10,19 @@ namespace WindowsFormsApplication2
     class GameLogic
     {
         private int dimensions;
-        private bool blue;
-        private bool red;
+        private const int blue = 1;
+        private const int red = 2;
+        private int current;
         private int[,] field;
+        private int x;
+        private int y;
+
 
         public int[,] Field
         {
             get { return field; }
         }
-        public bool Red
-        {
-            get { return this.red; }
-            set { this.red = value; }
-        }
-        public bool Blue
-        {
-            get { return this.blue; }
-            set { this.blue = value; }
-        }
+        
         public int Dimensions
         {
             set
@@ -38,16 +33,25 @@ namespace WindowsFormsApplication2
         }
         public GameLogic()
         {
-            this.blue = true;
-            this.red = false;
+            this.current = 1;
             this.dimensions = 6;
             this.buildField();
 
 
         }
 
+        //private int[] continueOnRoute(int current, int p, int i) {
+        //    while (field[x + p, y + i] == 2)
+        //    {
+        //        x += p;
+        //        y += i;
+        //        Console.WriteLine("                                         " + x.ToString() + "  " + y.ToString());
+        //    }
+        //}
+
         private bool checkNeighbours(int x, int y)
         {
+            int count = 0;
             for (int i = -1; i <= 1; i++)
             {
 
@@ -55,10 +59,11 @@ namespace WindowsFormsApplication2
                 {
                     try
                     {
-
+                        count++;
                         if (field[x + p, y + i] == field[x, y]) continue;
-                        if ((this.blue) ? field[x + p, y + i] == 2 : field[x + p, y + i] == 1)
+                        if ((current == blue) ? field[x + p, y + i] == 2 : field[x + p, y + i] == 1)
                         {
+                            Console.WriteLine("Count at finish  " + count.ToString());
                             while (field[x + p, y + i] == 2)
                             {
                                 x += p;
@@ -69,8 +74,9 @@ namespace WindowsFormsApplication2
                             return (field[x + p, y + i] == 1);
 
                         }
-                        else if ((this.red) ? field[x + p, y + i] == 1 : field[x + p, y + i] == 2)
+                        else if ((current == red) ? field[x + p, y + i] == 1 : field[x + p, y + i] == 2)
                         {
+                            Console.WriteLine("Count at finish  " + count.ToString());
 
                             while (field[x + p, y + i] == 1)
                             {
@@ -81,6 +87,7 @@ namespace WindowsFormsApplication2
                             Console.WriteLine("THis whopn:  " + field[x, y].ToString());
                             return (field[x + p, y + i] == 2);
                         };
+                        Console.WriteLine("Count at intermediate  " + count.ToString());
                     }
                     catch
                     {
@@ -93,22 +100,28 @@ namespace WindowsFormsApplication2
 
 
         }
+        public void changeCurrent() {
+            if (this.current == blue) this.current = red;
+            else this.current = blue;
+        }
         public void makeMove(int x, int y)
         {
             //Console.WriteLine("Blue:    " + this.blue.ToString() + "   Red:    " + this.red.ToString());
             ////Console.WriteLine(x.ToString() + "      " + y.ToString());
             //Console.WriteLine(x.ToString() + "   " + y.ToString() + "   " + this.field[x, y].ToString());
             //Console.WriteLine(x.ToString() + "   " + y.ToString() + "   " + this.checkNeighbours(x, y));
+
             if (this.field[x, y] == 0)
             {
                 if (this.checkNeighbours(x, y))
                 {
+                    changeCurrent();
                     Console.WriteLine("hoi");
-                    if (this.red) this.field[x, y] = 2;
-                    else if (this.blue) this.field[x, y] = 1;
-                    this.blue = this.red;
-                    this.red = this.blue != true;
+                    if (current == red) this.field[x, y] = blue;
+                    else if (current == blue) this.field[x, y] = red;
+
                 }
+                else field[x, y] = 0;
             }
         }
         private void buildField()
@@ -121,10 +134,10 @@ namespace WindowsFormsApplication2
                     this.field[x, y] = 0;
                 }
             }
-            this.field[this.dimensions / 2 - 1, this.dimensions / 2 - 1] = 1;
-            this.field[this.dimensions / 2 - 1, this.dimensions / 2] = 2;
-            this.field[this.dimensions / 2, this.dimensions / 2 - 1] = 2;
-            this.field[this.dimensions / 2, this.dimensions / 2] = 1;
+            this.field[this.dimensions / 2 - 1, this.dimensions / 2 - 1] = blue;
+            this.field[this.dimensions / 2 - 1, this.dimensions / 2] = red;
+            this.field[this.dimensions / 2, this.dimensions / 2 - 1] = red;
+            this.field[this.dimensions / 2, this.dimensions / 2] = blue;
         }
     }
 }

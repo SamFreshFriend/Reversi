@@ -25,7 +25,7 @@ namespace WindowsFormsApplication2
         private void Game_panel_Paint(object sender, PaintEventArgs e)
         {
             Control c = (Control)sender;
-            drawer.drawScreen(e.Graphics, c.Size);
+            drawer.drawScreen(e.Graphics);
             this.Invalidate();
 
         }
