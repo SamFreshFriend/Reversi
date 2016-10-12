@@ -79,33 +79,44 @@ namespace WindowsFormsApplication2
 
                 for (int p = -1; p <= 1; p++)
                 {
-                    try {
-                        if (field[x + i, y + p] == field[x,y]) continue;
-                        if (field[x + i, y + p] == opposite)
+
+                    if (outOfReach(i,p)) continue;
+                    if (field[x + i, y + p] == field[x, y]) continue;
+
+                    if (field[x + i, y + p] == opposite)
+                    {
+                        int x = this.x;
+                        int y = this.y;
+                        try
                         {
-                            int x = this.x;
-                            int y = this.y;
                             while (field[x + i, y + p] == this.opposite)
                             {
                                 x += i;
                                 y += p;
-                                
-                            }
-                            if (field[x + i, y + p] == current)
-                            {
-                                directions.Add(new Vector(i, p));
-                                if (onlyOneNeighbour) return directions;
+
                             }
                         }
+                        catch
+                        {
+                            continue;
+                        }
+                        if (field[x + i, y + p] == current)
+                        {
+                            directions.Add(new Vector(i, p));
+                            if (onlyOneNeighbour) return directions;
+                        }
                     }
-                    catch
-                    {
-                        continue;
-                    }
-                    }
+
+
+                }
             }
             return directions;
 
+        }
+
+        private bool outOfReach(int i, int p)
+        {
+            return (this.x + i <= 0 || this.x + i >= dimensions) || (this.y + p <= 0 || this.y + p >= dimensions);
         }
         private void continueOnRoute(List<Vector> vectorList)
         {
@@ -126,58 +137,7 @@ namespace WindowsFormsApplication2
             }
         }
 
-        //private bool checkNeighbours(int x, int y)
-        //{
-        //    int count = 0;
-        //    for (int i = -1; i <= 1; i++)
-        //    {
-
-        //        for (int p = -1; p <= 1; p++)
-        //        {
-        //            try
-        //            {
-        //                count++;
-        //                if (field[x + p, y + i] == field[x, y]) continue;
-        //                if ((current == blue) ? field[x + p, y + i] == 2 : field[x + p, y + i] == 1)
-        //                {
-        //                    Console.WriteLine("Count at finish  " + count.ToString());
-        //                    while (field[x + p, y + i] == 2)
-        //                    {
-        //                        x += p;
-        //                        y += i;
-        //                        Console.WriteLine("                                         " + x.ToString() + "  " + y.ToString());
-        //                    }
-        //                    Console.WriteLine("THis whopn:  " + field[x, y].ToString());
-        //                    return (field[x + p, y + i] == 1);
-
-        //                }
-        //                else if ((current == red) ? field[x + p, y + i] == 1 : field[x + p, y + i] == 2)
-        //                {
-        //                    Console.WriteLine("Count at finish  " + count.ToString());
-
-        //                    while (field[x + p, y + i] == 1)
-        //                    {
-        //                        x += p;
-        //                        y += i;
-        //                        Console.WriteLine("                                         " + x.ToString() + "  " + y.ToString());
-        //                    }
-        //                    Console.WriteLine("THis whopn:  " + field[x, y].ToString());
-        //                    return (field[x + p, y + i] == 2);
-        //                };
-        //                Console.WriteLine("Count at intermediate  " + count.ToString());
-        //            }
-        //            catch
-        //            {
-        //                continue;
-        //            }
-
-        //        }
-        //    }
-        //    return false;
-
-
-        //}
-
+       
         public void makeMove(int x, int y)
         {
             this.x = x;
