@@ -37,6 +37,20 @@ namespace WindowsFormsApplication2
                 }
             }
         }
+
+        private void drawPossibilities(Graphics gr, int cubeSize)
+        {
+            for (int x = 0; x < dimension; x++)
+            {
+                for (int y = 0; y < dimension; y++)
+                {
+                    if (this.logic.Possibilities[x, y])
+                        gr.FillEllipse(Brushes.Yellow, (float) (x * cubeSize + 0.25 * cubeSize),
+                            (float) (y * cubeSize + 0.25 * cubeSize), cubeSize / 2.0f, cubeSize / 2.0f);
+                }
+            }
+        }
+
         public void translateMove(Point p) {
             int x = p.X * this.dimension / this.screen.Width;
             int y = p.Y * this.dimension / this.screen.Height;
@@ -54,13 +68,14 @@ namespace WindowsFormsApplication2
                 int y = CubeSize * i;
                 gr.DrawLine(Pens.Black, 0, y, this.screen.Width, y);
                 gr.DrawLine(Pens.Black, x, 0, x, this.screen.Height);
-                this.drawCircles(gr, CubeSize);
                 //for (int y = 1; y < this.logic.Dimensions; y++)
                 //{
                 //    gr.DrawLine()
 
                 //}
             }
+            this.drawCircles(gr, CubeSize);
+            this.drawPossibilities(gr, CubeSize);
         }
     }
 }

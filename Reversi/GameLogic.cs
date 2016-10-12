@@ -18,6 +18,14 @@ namespace WindowsFormsApplication2
         private int[,] field;
         private int x;
         private int y;
+        private bool[,] currentPossibilities;
+        public bool[,] Possibilities
+        {
+            get
+            {
+                return currentPossibilities;
+            }
+        }
 
 
         public int[,] Field
@@ -39,14 +47,27 @@ namespace WindowsFormsApplication2
             this.opposite = red;
             this.dimensions = 6;
             this.buildField();
-
-
+            this.updateCurrentPossibilities();
         }
         public void changeCurrent()
         {
             int cu = this.current;
             this.current = opposite;
             this.opposite = cu;
+        }
+
+        private void updateCurrentPossibilities()
+        {
+            for (int x = 0; x < dimensions; x++)
+            {
+                for (int y = 0; y < dimensions; y++)
+                {
+                    this.x = x;
+                    this.y = y;
+                    currentPossibilities[x, y] =
+                        field[x, y] == 0 && lookForNeighbours().Count != 0;
+                }
+            }
         }
 
         private List<Vector> lookForNeighbours()
@@ -166,10 +187,11 @@ namespace WindowsFormsApplication2
                 if (vectorList.Count != 0)
                 {
                     this.continueOnRoute(vectorList);
-                    this.changeCurrent();
                     Console.WriteLine("hoi");
                     if (current == red) this.field[x, y] = red;
                     else if (current == blue) this.field[x, y] = blue;
+                    this.changeCurrent();
+                    this.updateCurrentPossibilities();
 
                 }
                 else field[x, y] = 0;
@@ -178,6 +200,7 @@ namespace WindowsFormsApplication2
         private void buildField()
         {
             this.field = new int[this.dimensions, this.dimensions];
+            this.currentPossibilities = new bool[this.dimensions, this.dimensions];
             for (int x = 0; x < this.dimensions; x++)
             {
                 for (int y = 0; y < this.dimensions; y++)
