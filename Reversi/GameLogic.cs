@@ -66,12 +66,12 @@ namespace WindowsFormsApplication2
                     this.x = x;
                     this.y = y;
                     currentPossibilities[x, y] =
-                        field[x, y] == 0 && lookForNeighbours().Count != 0;
+                        field[x, y] == 0 && lookForNeighbours(true).Count != 0;
                 }
             }
         }
 
-        private List<Vector> lookForNeighbours()
+        private List<Vector> lookForNeighbours(bool onlyOneNeighbour)
         {
             List<Vector> directions = new List<Vector>();
             for (int i = -1; i <= 1; i++)
@@ -91,7 +91,11 @@ namespace WindowsFormsApplication2
                                 y += p;
                                 
                             }
-                            if(field[x + i,y + p] == current)directions.Add(new Vector(i, p));
+                            if (field[x + i, y + p] == current)
+                            {
+                                directions.Add(new Vector(i, p));
+                                if (onlyOneNeighbour) return directions;
+                            }
                         }
                     }
                     catch
@@ -180,7 +184,7 @@ namespace WindowsFormsApplication2
             this.y = y;
             if (this.field[x, y] == 0)
             {
-                List<Vector> vectorList = this.lookForNeighbours();
+                List<Vector> vectorList = this.lookForNeighbours(false);
                 if (vectorList.Count != 0)
                 {
                     this.continueOnRoute(vectorList);
