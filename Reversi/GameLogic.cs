@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows;
 
 namespace WindowsFormsApplication2
 {
@@ -13,6 +14,7 @@ namespace WindowsFormsApplication2
         private const int blue = 1;
         private const int red = 2;
         private int current;
+        private int opposite;
         private int[,] field;
         private int x;
         private int y;
@@ -22,7 +24,7 @@ namespace WindowsFormsApplication2
         {
             get { return field; }
         }
-        
+
         public int Dimensions
         {
             set
@@ -33,21 +35,68 @@ namespace WindowsFormsApplication2
         }
         public GameLogic()
         {
-            this.current = 1;
+            this.current = blue;
+            this.opposite = red;
             this.dimensions = 6;
             this.buildField();
 
 
         }
+        public void changeCurrent()
+        {
+            int cu = this.current;
+            this.current = opposite;
+            this.opposite = cu;
+        }
 
-        //private int[] continueOnRoute(int current, int p, int i) {
-        //    while (field[x + p, y + i] == 2)
-        //    {
-        //        x += p;
-        //        y += i;
-        //        Console.WriteLine("                                         " + x.ToString() + "  " + y.ToString());
-        //    }
-        //}
+        private List<Vector> lookForNeighbours()
+        {
+            List<Vector> directions = new List<Vector>();
+            for (int i = -1; i <= 1; i++)
+            {
+
+                for (int p = -1; p <= 1; p++)
+                {
+                    try {
+                        if (field[x + i, y + p] == 0) continue;
+                        if (field[x + i, y + p] == opposite)
+                        {
+                            int x = this.x;
+                            int y = this.y;
+                            while (field[x + i, y + p] == this.opposite)
+                            {
+                                x += i;
+                                y += p;
+                            }
+                            directions.Add(new Vector(i, p));
+                        }
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+                    }
+            }
+            return directions;
+
+        }
+        private void continueOnRoute(List<Vector> vectorList)
+        {
+            foreach (Vector v in vectorList)
+            {
+                int i = (int)v.X;
+                int p = (int)v.Y;
+                int x = this.x;
+                int y = this.y;
+                while (field[x + i, y + p] == this.opposite)
+                {
+                    x += i;
+                    y += p;
+                    field[x, y] = current;
+                }
+
+            }
+        }
 
         private bool checkNeighbours(int x, int y)
         {
@@ -100,10 +149,7 @@ namespace WindowsFormsApplication2
 
 
         }
-        public void changeCurrent() {
-            if (this.current == blue) this.current = red;
-            else this.current = blue;
-        }
+
         public void makeMove(int x, int y)
         {
             //Console.WriteLine("Blue:    " + this.blue.ToString() + "   Red:    " + this.red.ToString());
@@ -111,14 +157,19 @@ namespace WindowsFormsApplication2
             //Console.WriteLine(x.ToString() + "   " + y.ToString() + "   " + this.field[x, y].ToString());
             //Console.WriteLine(x.ToString() + "   " + y.ToString() + "   " + this.checkNeighbours(x, y));
 
+            this.x = x;
+            this.y = y;
             if (this.field[x, y] == 0)
             {
-                if (this.checkNeighbours(x, y))
+                List<Vector> vectorList = this.lookForNeighbours();
+
+                if (vectorList.Count != 0)
                 {
-                    changeCurrent();
+                    this.continueOnRoute(vectorList);
+                    this.changeCurrent();
                     Console.WriteLine("hoi");
-                    if (current == red) this.field[x, y] = blue;
-                    else if (current == blue) this.field[x, y] = red;
+                    if (current == red) this.field[x, y] = red;
+                    else if (current == blue) this.field[x, y] = blue;
 
                 }
                 else field[x, y] = 0;
