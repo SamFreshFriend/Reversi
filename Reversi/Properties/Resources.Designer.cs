@@ -63,9 +63,9 @@ namespace WindowsFormsApplication2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap gifi {
+        internal static System.Drawing.Bitmap lead_214 {
             get {
-                object obj = ResourceManager.GetObject("gifi", resourceCulture);
+                object obj = ResourceManager.GetObject("lead-214", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace WindowsFormsApplication2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap lead_214 {
+        internal static System.Drawing.Bitmap window_vista_start_button_4900 {
             get {
-                object obj = ResourceManager.GetObject("lead-214", resourceCulture);
+                object obj = ResourceManager.GetObject("window_vista_start_button_4900", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

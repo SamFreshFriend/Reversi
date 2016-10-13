@@ -15,9 +15,10 @@ namespace WindowsFormsApplication2
         public Size Screen {
             set { this.screen = value; }
         }
-        //public GameLogic Logic {
-        //    get { return this.logic; }
-        //}
+        public GameLogic Logic
+        {
+            get { return this.logic; }
+        }
         public GameDrawer(GameLogic g, Size s)
         {
             this.logic = g;

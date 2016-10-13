@@ -28,7 +28,42 @@ namespace WindowsFormsApplication2
             }
         }
 
+        public int Current
+        {
+            get { return current; }
+        }
+        public int getBlueScore
+        {
+            get
+            {
+                int score = 0;
+                foreach (int i in field)
+                {
+                    if (i == blue) score++;
+                }
+                return score;
 
+            }
+        }
+        public int getRedScore {
+            get {
+                int score=0;
+                foreach (int i in field)
+                {
+                    if (i == red) score++;
+                }
+                return score;
+
+            }
+        }
+        public int Blue
+        {
+            get { return blue; }
+        }
+        public int Red
+        {
+            get { return red; }
+        }
         public int[,] Field
         {
             get { return field; }
@@ -42,11 +77,11 @@ namespace WindowsFormsApplication2
             }
             get { return this.dimensions; }
         }
-        public GameLogic()
+        public GameLogic(int dimensions)
         {
             this.current = blue;
             this.opposite = red;
-            this.dimensions = 6;
+            this.dimensions = dimensions;
             this.buildField();
             this.updateCurrentPossibilities();
         }
@@ -57,6 +92,9 @@ namespace WindowsFormsApplication2
             this.opposite = cu;
         }
 
+        //private bool checkIfDone() {
+        //    return ();
+        //}
         private void updateCurrentPossibilities()
         {
             for (int x = 0; x < dimensions; x++)
@@ -80,7 +118,7 @@ namespace WindowsFormsApplication2
                 for (int p = -1; p <= 1; p++)
                 {
 
-                    if (outOfReach(i,p)) continue;
+                    if (outOfReach(this.x, this.y, i, p)) continue;
                     if (field[x + i, y + p] == field[x, y]) continue;
 
                     if (field[x + i, y + p] == opposite)
@@ -89,7 +127,7 @@ namespace WindowsFormsApplication2
                         int y = this.y;
                         try
                         {
-                            while (field[x + i, y + p] == this.opposite)
+                            while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opposite)
                             {
                                 x += i;
                                 y += p;
@@ -98,9 +136,11 @@ namespace WindowsFormsApplication2
                         }
                         catch
                         {
+                            Console.WriteLine("Break at X: " + x.ToString() + "  and Y:  " + y.ToString());
+                            Console.WriteLine(outOfReach(x, y, i, p));
                             continue;
                         }
-                        if (field[x + i, y + p] == current)
+                        if (!outOfReach(x, y, i, p) && field[x + i, y + p] == current)
                         {
                             directions.Add(new Vector(i, p));
                             if (onlyOneNeighbour) return directions;
@@ -114,9 +154,9 @@ namespace WindowsFormsApplication2
 
         }
 
-        private bool outOfReach(int i, int p)
+        private bool outOfReach(int x, int y, int i, int p)
         {
-            return (this.x + i <= 0 || this.x + i >= dimensions) || (this.y + p <= 0 || this.y + p >= dimensions);
+            return (x + i <= 0 || x + i >= dimensions) || (y + p <= 0 || y + p >= dimensions);
         }
         private void continueOnRoute(List<Vector> vectorList)
         {
@@ -137,7 +177,7 @@ namespace WindowsFormsApplication2
             }
         }
 
-       
+
         public void makeMove(int x, int y)
         {
             this.x = x;
