@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Windows;
 
-namespace WindowsFormsApplication2
+namespace Reversi
 {
     class GameLogic
     {
@@ -45,9 +45,11 @@ namespace WindowsFormsApplication2
 
             }
         }
-        public int getRedScore {
-            get {
-                int score=0;
+        public int getRedScore
+        {
+            get
+            {
+                int score = 0;
                 foreach (int i in field)
                 {
                     if (i == red) score++;
@@ -71,10 +73,7 @@ namespace WindowsFormsApplication2
 
         public int Dimensions
         {
-            set
-            {
-                this.dimensions = value;
-            }
+            set { this.dimensions = value; }
             get { return this.dimensions; }
         }
         public GameLogic(int dimensions)
@@ -92,9 +91,6 @@ namespace WindowsFormsApplication2
             this.opposite = cu;
         }
 
-        //private bool checkIfDone() {
-        //    return ();
-        //}
         private void updateCurrentPossibilities()
         {
             for (int x = 0; x < dimensions; x++)

@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication2
+﻿namespace Reversi
 {
     partial class Form1
     {
@@ -49,7 +49,7 @@
             // 
             // button1
             // 
-            this.button1.BackgroundImage = global::WindowsFormsApplication2.Properties.Resources.window_vista_start_button_4900;
+            this.button1.BackgroundImage = global::Reversi.Properties.Resources.window_vista_start_button_4900;
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button1.Location = new System.Drawing.Point(264, 12);
             this.button1.Name = "button1";
