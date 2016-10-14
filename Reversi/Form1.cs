@@ -51,6 +51,25 @@ namespace Reversi
             }
             this.Score_Blue.Text = this.Game.Logic.getBlueScore.ToString();
             this.Score_Red.Text = this.Game.Logic.getRedScore.ToString();
+            if (this.Game.Logic.GameOver)
+            {
+                this.L_GameOver.Location = new Point(0, 0);
+                if (this.Game.Logic.getBlueScore > this.Game.Logic.getRedScore)
+                {
+                    this.L_GameOver.Text = "BLUE WINS";
+                    this.L_GameOver.ForeColor = Color.Blue;
+                }
+                else if (this.Game.Logic.getBlueScore == this.Game.Logic.getRedScore)
+                {
+                    this.L_GameOver.Text = "DRAW";
+                    this.L_GameOver.ForeColor = Color.Black;
+                }
+                else
+                {
+                    this.L_GameOver.Text = "RED WINS";
+                    this.L_GameOver.ForeColor = Color.Red;
+                }
+            }
             //this.TurnLabel.Text = (this.drawer.Logic.Current == this.drawer.Logic.Blue) ? "BLUE" : "RED";//
             //this.TurnLabel.ForeColor = (this.drawer.Logic.Current == this.drawer.Logic.Blue) ? Color.Blue : Color.Red;//
             //this.Score_Blue.Text = this.drawer.Logic.getBlueScore.ToString();//
@@ -77,6 +96,8 @@ namespace Reversi
             this.TurnLabel.Text = "BLUE";
             this.Score_Blue.Text = "2";
             this.Score_Red.Text = "2";
+            L_GameOver.Text = "";
+            this.L_GameOver.Location = new Point(-2000, -2000);
             this.Refresh();
 
         }

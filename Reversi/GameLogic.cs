@@ -76,6 +76,16 @@ namespace Reversi
             set { this.dimensions = value; }
             get { return this.dimensions; }
         }
+
+        private bool previousCanMove, lastCanMove;
+        public bool GameOver
+        {
+            get
+            {
+                return !previousCanMove && !lastCanMove;
+            }
+        }
+
         public GameLogic(int dimensions, int [,] field = null)
         {
             this.current = blue;
@@ -83,6 +93,7 @@ namespace Reversi
             this.dimensions = dimensions;
             if (field != null) this.field = field;
             else this.buildField();
+            previousCanMove = lastCanMove = true;
             this.updateCurrentPossibilities();
         }
         public void changeCurrent()
@@ -104,6 +115,19 @@ namespace Reversi
                         field[x, y] == 0 && lookForNeighbours().Count != 0;
                 }
             }
+        }
+
+        /// <summary>
+        /// Checks the Possibilities array, if it contains at least one possibility
+        /// </summary>
+        /// <returns>Whether a player can move</returns>
+        private bool canPlayerMove()
+        {
+            foreach (bool p in Possibilities)
+            {
+                if (p) return true;
+            }
+            return false;
         }
 
         private List<Vector> lookForNeighbours()
@@ -134,13 +158,14 @@ namespace Reversi
                 }
             }
             return directions;
-
         }
 
         private bool outOfReach(int x, int y, int i, int p)
         {
             return ((x + i) < 0 || (x + i) >= dimensions) || ((y + p) < 0 || (y + p) >= dimensions);
         }
+
+
         private void continueOnRoute(List<Vector> vectorList)
         {
             foreach (Vector v in vectorList)
@@ -163,6 +188,8 @@ namespace Reversi
 
         public void makeMove(int x, int y)
         {
+            if (this.GameOver) return;
+
             this.x = x;
             this.y = y;
             if (this.field[x, y] == 0)
@@ -177,6 +204,16 @@ namespace Reversi
                     this.changeCurrent();
                     this.updateCurrentPossibilities();
 
+                    previousCanMove = lastCanMove;
+                    lastCanMove = canPlayerMove();
+                    if (!lastCanMove)
+                    {
+                        changeCurrent();
+                        this.updateCurrentPossibilities();
+
+                        previousCanMove = lastCanMove;
+                        lastCanMove = canPlayerMove();
+                    }
                 }
                 else field[x, y] = 0;
             }
