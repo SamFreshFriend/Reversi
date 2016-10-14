@@ -12,6 +12,9 @@ namespace Reversi
         Size screen;
         GameDrawer drawer;
         int dimension;
+        AIClass Simulation;
+        bool vsComputerMode;
+        int computer;
         public GameLogic Logic {
             get { return this.drawer.Logic; }
         }
@@ -22,7 +25,7 @@ namespace Reversi
             get { return this.Logic.Red; }
         }
         public int Current {
-            get { return this.Logic.Current; }
+                get { return this.Logic.Current; }
         }
         public Size Screen
         {
@@ -32,11 +35,19 @@ namespace Reversi
         public void drawHandler(Graphics g) {
             this.drawer.drawScreen(g);
         }
+        private void computerMove() {
+            if (Current != computer) return;
+            Simulation = new AIClass(this.dimension, this.Logic.Field);
+            Point move = Simulation.makeMove();
+            this.Logic.makeMove(move.X, move.Y);
+
+        }
 
         public void mouseEvent(Point p) {
             int x = p.X * this.dimension / this.screen.Width;
             int y = p.Y * this.dimension / this.screen.Height;
             this.Logic.makeMove(x, y);
+            if(vsComputerMode)this.computerMove();
 
         }
         public GameClass(Size sz)
@@ -45,6 +56,8 @@ namespace Reversi
             this.screen = sz;
             // this.logic = new GameLogic(dimension);
             this.drawer = new GameDrawer(new GameLogic(dimension), this.screen);
+            this.vsComputerMode = false;
+            if (vsComputerMode) computer = Red;
         }
 
         public void newGame(int index)

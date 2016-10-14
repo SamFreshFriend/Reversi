@@ -83,6 +83,7 @@ namespace Reversi
             this.dimensions = dimensions;
             if (field != null) this.field = field;
             else this.buildField();
+            this.currentPossibilities = new bool[this.dimensions, this.dimensions];
             this.updateCurrentPossibilities();
         }
         public void changeCurrent()
@@ -92,7 +93,7 @@ namespace Reversi
             this.opposite = cu;
         }
 
-        private void updateCurrentPossibilities()
+        public void updateCurrentPossibilities()
         {
             for (int x = 0; x < dimensions; x++)
             {
@@ -100,37 +101,51 @@ namespace Reversi
                 {
                     this.x = x;
                     this.y = y;
-                    currentPossibilities[x, y] =
-                        field[x, y] == 0 && lookForNeighbours().Count != 0;
+                    this.currentPossibilities[x, y] =
+                        field[x, y] == 0 && lookForNeighbours(true).Count != 0;
                 }
             }
         }
 
-        private List<Vector> lookForNeighbours()
+        private List<Vector> lookForNeighbours(bool onlyOneNeighbour)
         {
             List<Vector> directions = new List<Vector>();
             for (int i = -1; i <= 1; i++)
             {
+
                 for (int p = -1; p <= 1; p++)
                 {
-                    if (outOfReach(x, y, i, p)) continue;
-                    if (p == 0 && i == 0) continue;
+
+                    if (outOfReach(this.x, this.y, i, p)) continue;
+                    if (field[x + i, y + p] == field[x, y]) continue;
 
                     if (field[x + i, y + p] == opposite)
                     {
                         int x = this.x;
                         int y = this.y;
-
-                        while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opposite)
+                        try
                         {
-                            x += i;
-                            y += p;
+                            while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opposite)
+                            {
+                                x += i;
+                                y += p;
+
+                            }
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Break at X: " + x.ToString() + "  and Y:  " + y.ToString());
+                            Console.WriteLine(outOfReach(x, y, i, p));
+                            continue;
                         }
                         if (!outOfReach(x, y, i, p) && field[x + i, y + p] == current)
                         {
                             directions.Add(new Vector(i, p));
+                            if (onlyOneNeighbour) return directions;
                         }
                     }
+
+
                 }
             }
             return directions;
@@ -139,7 +154,7 @@ namespace Reversi
 
         private bool outOfReach(int x, int y, int i, int p)
         {
-            return ((x + i) < 0 || (x + i) >= dimensions) || ((y + p) < 0 || (y + p) >= dimensions);
+            return (x + i <= 0 || x + i >= dimensions) || (y + p <= 0 || y + p >= dimensions);
         }
         private void continueOnRoute(List<Vector> vectorList)
         {
@@ -167,7 +182,7 @@ namespace Reversi
             this.y = y;
             if (this.field[x, y] == 0)
             {
-                List<Vector> vectorList = this.lookForNeighbours();
+                List<Vector> vectorList = this.lookForNeighbours(false);
                 if (vectorList.Count != 0)
                 {
                     this.continueOnRoute(vectorList);
@@ -184,7 +199,6 @@ namespace Reversi
         private void buildField()
         {
             this.field = new int[this.dimensions, this.dimensions];
-            this.currentPossibilities = new bool[this.dimensions, this.dimensions];
             for (int x = 0; x < this.dimensions; x++)
             {
                 for (int y = 0; y < this.dimensions; y++)
