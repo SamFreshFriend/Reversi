@@ -76,7 +76,17 @@ namespace Reversi
             set { this.dimensions = value; }
             get { return this.dimensions; }
         }
-        public GameLogic(int dimensions, int [,] field = null)
+
+        private bool previousCanMove, lastCanMove;
+        public bool GameOver
+        {
+            get
+            {
+                return !previousCanMove && !lastCanMove;
+            }
+        }
+
+        public GameLogic(int dimensions, int[,] field = null)
         {
             this.current = blue;
             this.opposite = red;
@@ -84,6 +94,7 @@ namespace Reversi
             if (field != null) this.field = field;
             else this.buildField();
             this.currentPossibilities = new bool[this.dimensions, this.dimensions];
+            previousCanMove = lastCanMove = true;
             this.updateCurrentPossibilities();
         }
         public void changeCurrent()
@@ -102,12 +113,25 @@ namespace Reversi
                     this.x = x;
                     this.y = y;
                     this.currentPossibilities[x, y] =
-                        field[x, y] == 0 && lookForNeighbours(true).Count != 0;
+                        field[x, y] == 0 && lookForNeighbours().Count != 0;
                 }
             }
         }
 
-        private List<Vector> lookForNeighbours(bool onlyOneNeighbour)
+        /// <summary>
+        /// Checks the Possibilities array, if it contains at least one possibility
+        /// </summary>
+        /// <returns>Whether a player can move</returns>
+        private bool canPlayerMove()
+        {
+            foreach (bool p in Possibilities)
+            {
+                if (p) return true;
+            }
+            return false;
+        }
+
+        private List<Vector> lookForNeighbours()
         {
             List<Vector> directions = new List<Vector>();
             for (int i = -1; i <= 1; i++)
@@ -141,7 +165,6 @@ namespace Reversi
                         if (!outOfReach(x, y, i, p) && field[x + i, y + p] == current)
                         {
                             directions.Add(new Vector(i, p));
-                            if (onlyOneNeighbour) return directions;
                         }
                     }
 
@@ -149,13 +172,14 @@ namespace Reversi
                 }
             }
             return directions;
-
         }
 
         private bool outOfReach(int x, int y, int i, int p)
         {
             return (x + i <= 0 || x + i >= dimensions) || (y + p <= 0 || y + p >= dimensions);
         }
+
+
         private void continueOnRoute(List<Vector> vectorList)
         {
             foreach (Vector v in vectorList)
@@ -178,11 +202,13 @@ namespace Reversi
 
         public void makeMove(int x, int y)
         {
+            if (this.GameOver) return;
+
             this.x = x;
             this.y = y;
             if (this.field[x, y] == 0)
             {
-                List<Vector> vectorList = this.lookForNeighbours(false);
+                List<Vector> vectorList = this.lookForNeighbours();
                 if (vectorList.Count != 0)
                 {
                     this.continueOnRoute(vectorList);
@@ -192,6 +218,16 @@ namespace Reversi
                     this.changeCurrent();
                     this.updateCurrentPossibilities();
 
+                    previousCanMove = lastCanMove;
+                    lastCanMove = canPlayerMove();
+                    if (!lastCanMove)
+                    {
+                        changeCurrent();
+                        this.updateCurrentPossibilities();
+
+                        previousCanMove = lastCanMove;
+                        lastCanMove = canPlayerMove();
+                    }
                 }
                 else field[x, y] = 0;
             }

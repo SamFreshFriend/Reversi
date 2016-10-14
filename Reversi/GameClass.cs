@@ -56,7 +56,7 @@ namespace Reversi
             this.screen = sz;
             // this.logic = new GameLogic(dimension);
             this.drawer = new GameDrawer(new GameLogic(dimension), this.screen);
-            this.vsComputerMode = false;
+            this.vsComputerMode = true;
             if (vsComputerMode) computer = Red;
         }
 
