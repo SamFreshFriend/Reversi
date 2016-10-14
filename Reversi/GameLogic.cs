@@ -100,50 +100,36 @@ namespace Reversi
                     this.x = x;
                     this.y = y;
                     currentPossibilities[x, y] =
-                        field[x, y] == 0 && lookForNeighbours(true).Count != 0;
+                        field[x, y] == 0 && lookForNeighbours().Count != 0;
                 }
             }
         }
 
-        private List<Vector> lookForNeighbours(bool onlyOneNeighbour)
+        private List<Vector> lookForNeighbours()
         {
             List<Vector> directions = new List<Vector>();
             for (int i = -1; i <= 1; i++)
             {
-
                 for (int p = -1; p <= 1; p++)
                 {
-
-                    if (outOfReach(this.x, this.y, i, p)) continue;
-                    if (field[x + i, y + p] == field[x, y]) continue;
+                    if (outOfReach(x, y, i, p)) continue;
+                    if (p == 0 && i == 0) continue;
 
                     if (field[x + i, y + p] == opposite)
                     {
                         int x = this.x;
                         int y = this.y;
-                        try
-                        {
-                            while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opposite)
-                            {
-                                x += i;
-                                y += p;
 
-                            }
-                        }
-                        catch
+                        while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opposite)
                         {
-                            Console.WriteLine("Break at X: " + x.ToString() + "  and Y:  " + y.ToString());
-                            Console.WriteLine(outOfReach(x, y, i, p));
-                            continue;
+                            x += i;
+                            y += p;
                         }
                         if (!outOfReach(x, y, i, p) && field[x + i, y + p] == current)
                         {
                             directions.Add(new Vector(i, p));
-                            if (onlyOneNeighbour) return directions;
                         }
                     }
-
-
                 }
             }
             return directions;
@@ -152,7 +138,7 @@ namespace Reversi
 
         private bool outOfReach(int x, int y, int i, int p)
         {
-            return (x + i <= 0 || x + i >= dimensions) || (y + p <= 0 || y + p >= dimensions);
+            return ((x + i) < 0 || (x + i) >= dimensions) || ((y + p) < 0 || (y + p) >= dimensions);
         }
         private void continueOnRoute(List<Vector> vectorList)
         {
@@ -180,7 +166,7 @@ namespace Reversi
             this.y = y;
             if (this.field[x, y] == 0)
             {
-                List<Vector> vectorList = this.lookForNeighbours(false);
+                List<Vector> vectorList = this.lookForNeighbours();
                 if (vectorList.Count != 0)
                 {
                     this.continueOnRoute(vectorList);
