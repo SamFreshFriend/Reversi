@@ -96,6 +96,7 @@
     <None Include="Properties\window_vista_start_button_4900.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\blackLeather.jpg" />
     <Content Include="reversi_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

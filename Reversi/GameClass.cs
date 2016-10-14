@@ -9,53 +9,65 @@ namespace Reversi
 {
     class GameClass
     {
-        Size screen;
         GameDrawer drawer;
         int dimension;
         AIClass Simulation;
         bool vsComputerMode;
         int computer;
-        public GameLogic Logic {
+
+        public GameLogic Logic
+        {
             get { return this.drawer.Logic; }
         }
-        public int Blue {
+        public bool VsComputerMode {
+            get { return vsComputerMode; }
+            set { this.vsComputerMode = value; }
+        }
+        public int Blue
+        {
             get { return this.Logic.Blue; }
         }
-        public int Red {
+        public int Red
+        {
             get { return this.Logic.Red; }
         }
-        public int Current {
-                get { return this.Logic.Current; }
+        public int Current
+        {
+            get { return this.Logic.Current; }
         }
         public Size Screen
         {
-            set { this.screen = value; }
+            get { return this.drawer.Screen; }
+            set { this.drawer.Screen = value; }
         }
 
-        public void drawHandler(Graphics g) {
+        public void drawHandler(Graphics g)
+        {
             this.drawer.drawScreen(g);
         }
-        private void computerMove() {
+        public void computerMove()
+        {
             if (Current != computer) return;
             Simulation = new AIClass(this.dimension, this.Logic.Field);
             Point move = Simulation.makeMove();
             this.Logic.makeMove(move.X, move.Y);
 
         }
-
-        public void mouseEvent(Point p) {
-            int x = p.X * this.dimension / this.screen.Width;
-            int y = p.Y * this.dimension / this.screen.Height;
+       
+        public void mouseEvent(Point p)
+        {
+            int x = p.X * this.dimension / this.Screen.Width;
+            int y = p.Y * this.dimension / this.Screen.Height;
             this.Logic.makeMove(x, y);
-            if(vsComputerMode)this.computerMove();
+            // if (vsComputerMode) this.computerMove();
 
         }
         public GameClass(Size sz)
         {
             this.dimension = 6;
-            this.screen = sz;
             // this.logic = new GameLogic(dimension);
-            this.drawer = new GameDrawer(new GameLogic(dimension), this.screen);
+            this.drawer = new GameDrawer(new GameLogic(dimension), sz);
+            this.Screen = sz;
             this.vsComputerMode = true;
             if (vsComputerMode) computer = Red;
         }
@@ -64,7 +76,7 @@ namespace Reversi
         {
             switch (index)
             {
-                case -1:  dimension = 6; break;
+                case -1: dimension = 6; break;
                 case 0: dimension = 6; break;
                 case 1: dimension = 8; break;
                 case 2: dimension = 10; break;
@@ -75,7 +87,7 @@ namespace Reversi
 
             }
             //this.logic = new GameLogic(dimension);
-            this.drawer = new GameDrawer(new GameLogic(dimension), screen);
+            this.drawer = new GameDrawer(new GameLogic(dimension), Screen);
         }
     }
 }

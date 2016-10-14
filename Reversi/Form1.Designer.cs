@@ -42,37 +42,34 @@
             // 
             // Game_panel
             // 
+            this.Game_panel.BackColor = System.Drawing.Color.Black;
+            this.Game_panel.BackgroundImage = global::Reversi.Properties.Resources.blackLeather;
             this.Game_panel.Controls.Add(this.L_GameOver);
-            this.Game_panel.Location = new System.Drawing.Point(133, 98);
-            this.Game_panel.Margin = new System.Windows.Forms.Padding(4);
+            this.Game_panel.Location = new System.Drawing.Point(100, 80);
             this.Game_panel.Name = "Game_panel";
-            this.Game_panel.Size = new System.Drawing.Size(733, 677);
+            this.Game_panel.Size = new System.Drawing.Size(550, 550);
             this.Game_panel.TabIndex = 0;
             this.Game_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.Game_panel_Paint);
             this.Game_panel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Game_panel_MouseClick);
             // 
             // L_GameOver
             // 
-            this.L_GameOver.AutoSize = false;
-            this.L_GameOver.BackColor = System.Drawing.Color.FromArgb(80, 0, 0, 0);
+            this.L_GameOver.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.L_GameOver.Font = new System.Drawing.Font("Microsoft Sans Serif", 64F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.L_GameOver.ForeColor = System.Drawing.Color.Black;
-            this.L_GameOver.Location = new System.Drawing.Point(-2000, -2000);
-            this.L_GameOver.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.L_GameOver.Location = new System.Drawing.Point(-1500, -1625);
             this.L_GameOver.Name = "L_GameOver";
-            this.L_GameOver.Size = new System.Drawing.Size(Game_panel.Size.Width, Game_panel.Size.Height);
+            this.L_GameOver.Size = new System.Drawing.Size(150, 81);
             this.L_GameOver.TabIndex = 8;
-            this.L_GameOver.Text = "";
             this.L_GameOver.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button1
             // 
             this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.button1.Location = new System.Drawing.Point(352, 15);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Location = new System.Drawing.Point(264, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(57, 53);
+            this.button1.Size = new System.Drawing.Size(43, 43);
             this.button1.TabIndex = 2;
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -87,10 +84,9 @@
             "12 by 12",
             "14 by 14",
             "16 by 16"});
-            this.combo_GameMode.Location = new System.Drawing.Point(133, 30);
-            this.combo_GameMode.Margin = new System.Windows.Forms.Padding(4);
+            this.combo_GameMode.Location = new System.Drawing.Point(100, 24);
             this.combo_GameMode.Name = "combo_GameMode";
-            this.combo_GameMode.Size = new System.Drawing.Size(160, 24);
+            this.combo_GameMode.Size = new System.Drawing.Size(121, 21);
             this.combo_GameMode.TabIndex = 3;
             this.combo_GameMode.Text = "6 by 6";
             // 
@@ -100,10 +96,9 @@
             this.TurnLabel.BackColor = System.Drawing.Color.Transparent;
             this.TurnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TurnLabel.ForeColor = System.Drawing.Color.Blue;
-            this.TurnLabel.Location = new System.Drawing.Point(540, 33);
-            this.TurnLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.TurnLabel.Location = new System.Drawing.Point(405, 27);
             this.TurnLabel.Name = "TurnLabel";
-            this.TurnLabel.Size = new System.Drawing.Size(111, 39);
+            this.TurnLabel.Size = new System.Drawing.Size(89, 31);
             this.TurnLabel.TabIndex = 4;
             this.TurnLabel.Text = "BLUE";
             // 
@@ -113,10 +108,9 @@
             this.Score_Blue.BackColor = System.Drawing.Color.Transparent;
             this.Score_Blue.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Score_Blue.ForeColor = System.Drawing.Color.Blue;
-            this.Score_Blue.Location = new System.Drawing.Point(701, 33);
-            this.Score_Blue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Score_Blue.Location = new System.Drawing.Point(526, 27);
             this.Score_Blue.Name = "Score_Blue";
-            this.Score_Blue.Size = new System.Drawing.Size(37, 39);
+            this.Score_Blue.Size = new System.Drawing.Size(30, 31);
             this.Score_Blue.TabIndex = 5;
             this.Score_Blue.Text = "2";
             // 
@@ -126,10 +120,9 @@
             this.Score_Red.BackColor = System.Drawing.Color.Transparent;
             this.Score_Red.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Score_Red.ForeColor = System.Drawing.Color.Red;
-            this.Score_Red.Location = new System.Drawing.Point(773, 33);
-            this.Score_Red.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Score_Red.Location = new System.Drawing.Point(580, 27);
             this.Score_Red.Name = "Score_Red";
-            this.Score_Red.Size = new System.Drawing.Size(37, 39);
+            this.Score_Red.Size = new System.Drawing.Size(30, 31);
             this.Score_Red.TabIndex = 6;
             this.Score_Red.Text = "2";
             // 
@@ -139,19 +132,18 @@
             this.Colon.BackColor = System.Drawing.Color.Transparent;
             this.Colon.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Colon.ForeColor = System.Drawing.Color.Blue;
-            this.Colon.Location = new System.Drawing.Point(749, 38);
-            this.Colon.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Colon.Location = new System.Drawing.Point(562, 31);
             this.Colon.Name = "Colon";
-            this.Colon.Size = new System.Drawing.Size(20, 29);
+            this.Colon.Size = new System.Drawing.Size(16, 24);
             this.Colon.TabIndex = 7;
             this.Colon.Text = ":";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(912, 814);
+            this.ClientSize = new System.Drawing.Size(684, 661);
             this.Controls.Add(this.Colon);
             this.Controls.Add(this.Score_Red);
             this.Controls.Add(this.Score_Blue);
@@ -160,11 +152,10 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Game_panel);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Reversi";
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.Game_panel.ResumeLayout(false);
-            this.Game_panel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 

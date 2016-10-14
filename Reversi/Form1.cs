@@ -31,19 +31,18 @@ namespace Reversi
             this.Invalidate();
 
         }
-
-        private void Game_panel_MouseClick(object sender, MouseEventArgs e)
-        {
-            Game.mouseEvent(e.Location);
-            //drawer.translateMove(e.Location);//
-            switch (this.Game.Current) {
+        private void checkLabels() {
+            switch (this.Game.Current)
+            {
                 case -1: break;
-                case 1: {
+                case 1:
+                    {
                         this.TurnLabel.Text = "BLUE";
                         this.TurnLabel.ForeColor = Color.Blue;
                         break;
                     }
-                case 2: {
+                case 2:
+                    {
                         this.TurnLabel.Text = "RED";
                         this.TurnLabel.ForeColor = Color.Red;
                         break;
@@ -70,11 +69,24 @@ namespace Reversi
                     this.L_GameOver.ForeColor = Color.Red;
                 }
             }
+        }
+
+        private void Game_panel_MouseClick(object sender, MouseEventArgs e)
+        {
+            Game.mouseEvent(e.Location);
+            //drawer.translateMove(e.Location);//
+            this.checkLabels();
             //this.TurnLabel.Text = (this.drawer.Logic.Current == this.drawer.Logic.Blue) ? "BLUE" : "RED";//
             //this.TurnLabel.ForeColor = (this.drawer.Logic.Current == this.drawer.Logic.Blue) ? Color.Blue : Color.Red;//
             //this.Score_Blue.Text = this.drawer.Logic.getBlueScore.ToString();//
             //this.Score_Red.Text = this.drawer.Logic.getRedScore.ToString();//
             this.Refresh();
+            if (this.Game.VsComputerMode)
+            {
+                this.Game.computerMove();
+                this.checkLabels();
+                this.Refresh();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -98,8 +110,16 @@ namespace Reversi
             this.Score_Red.Text = "2";
             L_GameOver.Text = "";
             this.L_GameOver.Location = new Point(-2000, -2000);
-            this.Refresh();
+            this.Invalidate();
 
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            Control c = (Control)sender;
+            this.Game_panel.Size = (c.Size.Width <= c.Size.Height) ? new Size(c.Size.Width -150, c.Size.Width -150) : new Size(c.Size.Height -150, c.Size.Height- 150);
+            this.Game.Screen = this.Game_panel.Size;
+            this.Refresh();
         }
     }
 }

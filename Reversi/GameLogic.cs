@@ -176,7 +176,7 @@ namespace Reversi
 
         private bool outOfReach(int x, int y, int i, int p)
         {
-            return (x + i <= 0 || x + i >= dimensions) || (y + p <= 0 || y + p >= dimensions);
+            return (x + i < 0 || x + i >= dimensions) || (y + p < 0 || y + p >= dimensions);
         }
 
 

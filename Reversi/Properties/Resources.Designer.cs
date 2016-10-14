@@ -63,6 +63,16 @@ namespace Reversi.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap blackLeather {
+            get {
+                object obj = ResourceManager.GetObject("blackLeather", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap lead_214 {
             get {
                 object obj = ResourceManager.GetObject("lead-214", resourceCulture);

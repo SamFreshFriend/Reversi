@@ -13,6 +13,7 @@ namespace Reversi
         private Size screen;
         private GameLogic logic;
         public Size Screen {
+            get { return this.screen; }
             set { this.screen = value; }
         }
         public GameLogic Logic
@@ -33,8 +34,8 @@ namespace Reversi
             {
                 for (int y = 0; y < dimension; y++)
                 {
-                    if (this.logic.Field[x, y] == 1) gr.FillEllipse(Brushes.Blue, x * cubeSize, y * cubeSize, cubeSize, cubeSize);
-                    else if (this.logic.Field[x, y] == 2) gr.FillEllipse(Brushes.Red, x * cubeSize, y * cubeSize, cubeSize, cubeSize);
+                    if (this.logic.Field[x, y] == 1) gr.FillEllipse(Brushes.DarkBlue, x * cubeSize, y * cubeSize, cubeSize, cubeSize);
+                    else if (this.logic.Field[x, y] == 2) gr.FillEllipse(Brushes.DarkRed, x * cubeSize, y * cubeSize, cubeSize, cubeSize);
                 }
             }
         }
@@ -67,8 +68,8 @@ namespace Reversi
             {
                 int x = CubeSize * i;
                 int y = CubeSize * i;
-                gr.DrawLine(Pens.Black, 0, y, this.screen.Width, y);
-                gr.DrawLine(Pens.Black, x, 0, x, this.screen.Height);
+                gr.DrawLine(Pens.Green, 0, y, this.screen.Width, y);
+                gr.DrawLine(Pens.Green, x, 0, x, this.screen.Height);
                 //for (int y = 1; y < this.logic.Dimensions; y++)
                 //{
                 //    gr.DrawLine()
