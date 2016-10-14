@@ -49,7 +49,7 @@
             // 
             // button1
             // 
-            this.button1.BackgroundImage = global::Reversi.Properties.Resources.window_vista_start_button_4900;
+            this.button1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button1.BackgroundImage")));
             this.button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button1.Location = new System.Drawing.Point(264, 12);
             this.button1.Name = "button1";
@@ -135,6 +135,7 @@
             this.Controls.Add(this.combo_GameMode);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.Game_panel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Reversi";
             this.ResumeLayout(false);

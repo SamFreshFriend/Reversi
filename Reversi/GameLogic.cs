@@ -76,12 +76,13 @@ namespace Reversi
             set { this.dimensions = value; }
             get { return this.dimensions; }
         }
-        public GameLogic(int dimensions)
+        public GameLogic(int dimensions, int [,] field = null)
         {
             this.current = blue;
             this.opposite = red;
             this.dimensions = dimensions;
-            this.buildField();
+            if (field != null) this.field = field;
+            else this.buildField();
             this.updateCurrentPossibilities();
         }
         public void changeCurrent()
