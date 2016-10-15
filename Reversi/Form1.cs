@@ -52,6 +52,7 @@ namespace Reversi
             this.Score_Red.Text = this.Game.Logic.getRedScore.ToString();
             if (this.Game.Logic.GameOver)
             {
+                this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
                 this.L_GameOver.Location = new Point(0, 0);
                 if (this.Game.Logic.getBlueScore > this.Game.Logic.getRedScore)
                 {
@@ -118,6 +119,7 @@ namespace Reversi
         {
             Control c = (Control)sender;
             this.Game_panel.Size = (c.Size.Width <= c.Size.Height) ? new Size(c.Size.Width -150, c.Size.Width -150) : new Size(c.Size.Height -150, c.Size.Height- 150);
+            this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
             this.Game.Screen = this.Game_panel.Size;
             this.Refresh();
         }
