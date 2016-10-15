@@ -50,7 +50,7 @@ namespace Reversi
             }
             this.Score_Blue.Text = this.Game.Logic.getBlueScore.ToString();
             this.Score_Red.Text = this.Game.Logic.getRedScore.ToString();
-            if (this.Game.Logic.GameOver)
+            if (this.Game.GameOver)
             {
                 this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
                 this.L_GameOver.Location = new Point(0, 0);
@@ -75,13 +75,9 @@ namespace Reversi
         private void Game_panel_MouseClick(object sender, MouseEventArgs e)
         {
             Game.mouseEvent(e.Location);
-            //drawer.translateMove(e.Location);//
             this.checkLabels();
-            //this.TurnLabel.Text = (this.drawer.Logic.Current == this.drawer.Logic.Blue) ? "BLUE" : "RED";//
-            //this.TurnLabel.ForeColor = (this.drawer.Logic.Current == this.drawer.Logic.Blue) ? Color.Blue : Color.Red;//
-            //this.Score_Blue.Text = this.drawer.Logic.getBlueScore.ToString();//
-            //this.Score_Red.Text = this.drawer.Logic.getRedScore.ToString();//
             this.Refresh();
+
             if (this.Game.VsComputerMode)
             {
                 this.Game.computerMove();

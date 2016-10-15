@@ -76,16 +76,7 @@ namespace Reversi
             set { this.dimensions = value; }
             get { return this.dimensions; }
         }
-
-        private bool previousCanMove, lastCanMove;
-        public bool GameOver
-        {
-            get
-            {
-                return !previousCanMove && !lastCanMove;
-            }
-        }
-
+        
         public GameLogic(int dimensions, int[,] field = null)
         {
             this.current = blue;
@@ -94,7 +85,6 @@ namespace Reversi
             if (field != null) this.field = field;
             else this.buildField();
             this.currentPossibilities = new bool[this.dimensions, this.dimensions];
-            previousCanMove = lastCanMove = true;
             this.updateCurrentPossibilities();
         }
         public void changeCurrent()
@@ -122,7 +112,7 @@ namespace Reversi
         /// Checks the Possibilities array, if it contains at least one possibility
         /// </summary>
         /// <returns>Whether a player can move</returns>
-        private bool canPlayerMove()
+        public bool canPlayerMove()
         {
             foreach (bool p in Possibilities)
             {
@@ -130,7 +120,7 @@ namespace Reversi
             }
             return false;
         }
-
+        
         private List<Vector> lookForNeighbours()
         {
             List<Vector> directions = new List<Vector>();
@@ -147,20 +137,11 @@ namespace Reversi
                     {
                         int x = this.x;
                         int y = this.y;
-                        try
+                        while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opposite)
                         {
-                            while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opposite)
-                            {
-                                x += i;
-                                y += p;
+                            x += i;
+                            y += p;
 
-                            }
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Break at X: " + x.ToString() + "  and Y:  " + y.ToString());
-                            Console.WriteLine(outOfReach(x, y, i, p));
-                            continue;
                         }
                         if (!outOfReach(x, y, i, p) && field[x + i, y + p] == current)
                         {
@@ -202,8 +183,6 @@ namespace Reversi
 
         public void makeMove(int x, int y)
         {
-            if (this.GameOver) return;
-
             this.x = x;
             this.y = y;
             if (this.field[x, y] == 0)
@@ -217,17 +196,6 @@ namespace Reversi
                     else if (current == blue) this.field[x, y] = blue;
                     this.changeCurrent();
                     this.updateCurrentPossibilities();
-
-                    previousCanMove = lastCanMove;
-                    lastCanMove = canPlayerMove();
-                    if (!lastCanMove)
-                    {
-                        changeCurrent();
-                        this.updateCurrentPossibilities();
-
-                        previousCanMove = lastCanMove;
-                        lastCanMove = canPlayerMove();
-                    }
                 }
                 else field[x, y] = 0;
             }

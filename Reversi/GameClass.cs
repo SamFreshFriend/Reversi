@@ -45,13 +45,30 @@ namespace Reversi
         {
             this.drawer.drawScreen(g);
         }
+
+        private bool previousCouldMove, lastCanMove;
+        public bool GameOver
+        {
+            get
+            {
+                return !previousCouldMove && !lastCanMove;
+            }
+        }
         public void computerMove()
         {
-            if (Current != computer) return;
+            if (Current != computer || GameOver) return;
             Simulation = new AIClass(this.dimension, this.Logic.Field);
             Point move = Simulation.makeMove();
             this.Logic.makeMove(move.X, move.Y);
 
+            updateGameOver();
+
+            if (Current == computer && !GameOver)
+            {
+                Simulation = new AIClass(this.dimension, this.Logic.Field);
+                move = Simulation.makeMove();
+                this.Logic.makeMove(move.X, move.Y);
+            }
         }
        
         public void mouseEvent(Point p)
@@ -59,15 +76,30 @@ namespace Reversi
             int x = p.X * this.dimension / this.Screen.Width;
             int y = p.Y * this.dimension / this.Screen.Height;
             this.Logic.makeMove(x, y);
-            // if (vsComputerMode) this.computerMove();
 
+            updateGameOver();
         }
+
+        private void updateGameOver()
+        {
+            previousCouldMove = lastCanMove;
+            lastCanMove = Logic.canPlayerMove();
+            if (!lastCanMove)
+            {
+                Logic.changeCurrent();
+                previousCouldMove = lastCanMove;
+                Logic.updateCurrentPossibilities();
+                lastCanMove = Logic.canPlayerMove();
+            }
+        }
+
         public GameClass(Size sz)
         {
             this.dimension = 6;
             // this.logic = new GameLogic(dimension);
             this.drawer = new GameDrawer(new GameLogic(dimension), sz);
             this.Screen = sz;
+            previousCouldMove = lastCanMove = true;
             this.vsComputerMode = true;
             if (vsComputerMode) computer = Red;
         }
