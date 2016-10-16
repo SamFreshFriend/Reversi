@@ -13,8 +13,8 @@ namespace Reversi
         private const int score_medium = 1;
         private const int score_neutral = 0;
         private const int score_low = -2;
-        private GameLogic logic;
-        private int dimension;
+        protected GameLogic logic;
+        protected int dimension;
         private int[,] scoreField;
         private int[,] currentField;
 
@@ -28,12 +28,9 @@ namespace Reversi
         }
         public Point makeMove()
         {
-            //this.logic.updateCurrentPossibilities();
             this.buildCurrentField();
             this.checkPossibilities();
             Point move = this.bestMove();
-            Console.WriteLine(this.logic.Current);
-            Console.WriteLine("Giravve made a move! :)o0o0o     " + move.X + "  " + move.Y );
             return this.bestMove();
         }
         private void buildCurrentField()
@@ -48,10 +45,19 @@ namespace Reversi
 
             }
         }
-        private int checkPosition(int x, int y)
+        protected int checkPosition(int x, int y)
         {
             return scoreField[x, y];
         }
+
+        // This function is overwritten by children of this class
+        // to change how they score move. For this basic AI, it
+        // just returns the value in the scoreField.
+        protected virtual int getPositionScore(int x, int y)
+        {
+            return checkPosition(x, y);
+        }
+
         private void checkPossibilities()
         {
             this.logic.updateCurrentPossibilities();
@@ -59,7 +65,7 @@ namespace Reversi
             {
                 for (int y = 0; y < this.dimension; y++)
                 {
-                    if (this.logic.Possibilities[x, y]) currentField[x, y] += checkPosition(x, y);
+                    if (this.logic.Possibilities[x, y]) currentField[x, y] += getPositionScore(x, y);
 
                 }
             }
@@ -82,8 +88,6 @@ namespace Reversi
                         moves.Add(move);
                         highest = currentField[move.X, move.Y];
                     }
-
-
                 }
             }
             if (moves.Count > 1) return moves[new Random().Next(moves.Count - 1)];
@@ -115,7 +119,6 @@ namespace Reversi
 
                     if (((x < 2 && y < 2) || (x < 2 && y > this.dimension - 3)) || ((x > this.dimension - 3 && y > this.dimension - 3) || (x > this.dimension - 3 && y < 2))) this.scoreField[x, y] = score_low;
                     if (((x == 0 && y == 0) || (x == 0 && y == this.dimension - 1)) || ((x == this.dimension - 1 && y == this.dimension - 1) || (x == this.dimension - 1 && y == 0))) this.scoreField[x, y] = score_high;
-
                 }
             }
             printField();

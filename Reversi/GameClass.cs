@@ -57,7 +57,7 @@ namespace Reversi
         public void computerMove()
         {
             if (Current != computer || GameOver) return;
-            Simulation = new AIClass(this.dimension, this.Logic.Field);
+            Simulation = new MiniMaxAI(this.dimension, this.Logic.Field);
             Point move = Simulation.makeMove();
             this.Logic.makeMove(move.X, move.Y);
 

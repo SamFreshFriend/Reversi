@@ -32,6 +32,10 @@ namespace Reversi
         {
             get { return current; }
         }
+        public int Opposite
+        {
+            get { return opposite; }
+        }
         public int getBlueScore
         {
             get
@@ -87,6 +91,17 @@ namespace Reversi
             this.currentPossibilities = new bool[this.dimensions, this.dimensions];
             this.updateCurrentPossibilities();
         }
+
+        // Clones an existing GameLogic
+        public GameLogic(GameLogic logic)
+        {
+            this.field = (int[,]) logic.Field.Clone();
+            this.currentPossibilities = (bool[,])logic.Possibilities.Clone();
+            this.current = logic.Current;
+            this.opposite = logic.Opposite;
+            this.dimensions = logic.Dimensions;
+        }
+
         public void changeCurrent()
         {
             int cu = this.current;
@@ -107,7 +122,7 @@ namespace Reversi
                 }
             }
         }
-
+        
         /// <summary>
         /// Checks the Possibilities array, if it contains at least one possibility
         /// </summary>
@@ -126,10 +141,8 @@ namespace Reversi
             List<Vector> directions = new List<Vector>();
             for (int i = -1; i <= 1; i++)
             {
-
                 for (int p = -1; p <= 1; p++)
                 {
-
                     if (outOfReach(this.x, this.y, i, p)) continue;
                     if (field[x + i, y + p] == field[x, y]) continue;
 
