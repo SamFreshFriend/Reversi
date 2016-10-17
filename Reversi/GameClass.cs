@@ -10,30 +10,65 @@ namespace Reversi
     class GameClass
     {
         GameDrawer drawer;
+        private GameLogic logicRed;
+        private GameLogic logicBlue;
+        private GameLogic current;
         int dimension;
+        private const int blue = 1;
+        private const int red = 2;
+        private int[,] field;
+        private bool computer = true;
+
         AIClass Simulation;
         bool vsComputerMode;
-        int computer;
+        private bool previousCouldMove, lastCanMove;
+        Stack<int[,]> movesMade;
 
-        public GameLogic Logic
+        //public Stack<int[,]> MovesMade {
+        //    get { return this.movesMade;  }
+        //}
+
+        public int[,] Field
         {
-            get { return this.drawer.Logic; }
+            get { return field; }
         }
-        public bool VsComputerMode {
-            get { return vsComputerMode; }
-            set { this.vsComputerMode = value; }
-        }
-        public int Blue
+        public GameLogic LogicRed
         {
-            get { return this.Logic.Blue; }
+            set { this.logicRed = value; }
         }
-        public int Red
+        public GameLogic LogicBlue
         {
-            get { return this.Logic.Red; }
+            set { this.logicBlue = value; }
         }
-        public int Current
+        public int getBlueScore
         {
-            get { return this.Logic.Current; }
+            get
+            {
+                int score = 0;
+                foreach (int i in field)
+                {
+                    if (i == blue) score++;
+                }
+                return score;
+
+            }
+        }
+        public int getRedScore
+        {
+            get
+            {
+                int score = 0;
+                foreach (int i in field)
+                {
+                    if (i == red) score++;
+                }
+                return score;
+
+            }
+        }
+        public GameLogic Current
+        {
+            get { return this.current; }
         }
         public Size Screen
         {
@@ -43,10 +78,10 @@ namespace Reversi
 
         public void drawHandler(Graphics g)
         {
-            this.drawer.drawScreen(g);
+            this.drawer.drawScreen(g, current);
         }
 
-        private bool previousCouldMove, lastCanMove;
+
         public bool GameOver
         {
             get
@@ -54,12 +89,42 @@ namespace Reversi
                 return !previousCouldMove && !lastCanMove;
             }
         }
+
+        public GameClass(Size sz, bool bluePlayer = false, bool redPlayer = true)
+        {
+            this.dimension = 6;
+            this.buildField();
+            this.logicBlue = (bluePlayer == computer) ? new GameLogic(blue, dimension, field) : new AILogic(blue, dimension, field);
+            this.logicRed = (redPlayer == computer) ? new GameLogic(blue, dimension, field) : new AILogic(blue, dimension, field);
+            this.current = logicBlue;
+            this.drawer = new GameDrawer(sz, current);
+            this.Screen = sz;
+            // this.movesMade = new Stack<int[,]>();
+            previousCouldMove = lastCanMove = true;
+
+        }
+        public GameClass(GameClass Game, bool bluePlayer = false, bool redPlayer = true)
+        {
+            this.field = Game.field;
+            this.logicBlue = (bluePlayer == computer) ? new GameLogic(blue, dimension, field) : new AILogic(blue, dimension, field);
+            this.logicRed = (redPlayer == computer) ? new GameLogic(blue, dimension, field) : new AILogic(blue, dimension, field);
+            this.current = (Game.current.Player == blue) ? this.logicBlue: this.logicRed;
+            this.previousCouldMove = Game.previousCouldMove;
+            this.lastCanMove = Game.lastCanMove;
+        }
+
+        public void changeCurrent()
+        {
+            current = (current == logicBlue) ? logicRed : logicBlue;
+        }
+
         public void computerMove()
         {
-            if (Current != computer || GameOver) return;
-            Simulation = new MiniMaxAI(this.dimension, this.Logic.Field);
-            Point move = Simulation.makeMove();
+            if (GameOver) return;
+            Point move = (AILogic)current.getMove(this);
+            //this.movesMade.Push(this.Logic.Field);
             this.Logic.makeMove(move.X, move.Y);
+
 
             updateGameOver();
 
@@ -67,42 +132,58 @@ namespace Reversi
             {
                 Simulation = new AIClass(this.dimension, this.Logic.Field);
                 move = Simulation.makeMove();
-                this.Logic.makeMove(move.X, move.Y);
+                //this.movesMade.Push(this.Logic.Field);
+                this.current.makeMove(move.X, move.Y);
+
             }
         }
-       
+
         public void mouseEvent(Point p)
         {
             int x = p.X * this.dimension / this.Screen.Width;
             int y = p.Y * this.dimension / this.Screen.Height;
-            this.Logic.makeMove(x, y);
+            //this.movesMade.Push(this.Logic.Field);
+            if (this.current.checkMove(x, y)) makeMove(x, y);
 
-            updateGameOver();
         }
+        public void makeMove(int x, int y)
+        {
+
+            current.makeMove(x, y);
+            updateGameOver();
+            this.changeCurrent();
+            if (current.whoAmI == computer)
+            {
+
+
+            }
+        }
+
+        //public void popMove() {
+        //    try
+        //    {
+        //        Console.WriteLine();
+        //        this.movesMade.Pop();
+        //        this.Logic.Field = this.movesMade.First();
+        //        this.Logic.changeCurrent();
+        //    }
+        //    catch { }
+        //}
 
         private void updateGameOver()
         {
             previousCouldMove = lastCanMove;
-            lastCanMove = Logic.canPlayerMove();
+            lastCanMove = current.canPlayerMove();
             if (!lastCanMove)
             {
-                Logic.changeCurrent();
+                this.changeCurrent();
                 previousCouldMove = lastCanMove;
-                Logic.updateCurrentPossibilities();
-                lastCanMove = Logic.canPlayerMove();
+                current.updateCurrentPossibilities();
+                lastCanMove = current.canPlayerMove();
             }
         }
 
-        public GameClass(Size sz)
-        {
-            this.dimension = 6;
-            // this.logic = new GameLogic(dimension);
-            this.drawer = new GameDrawer(new GameLogic(dimension), sz);
-            this.Screen = sz;
-            previousCouldMove = lastCanMove = true;
-            this.vsComputerMode = true;
-            if (vsComputerMode) computer = Red;
-        }
+
 
         public void newGame(int index)
         {
@@ -119,7 +200,28 @@ namespace Reversi
 
             }
             //this.logic = new GameLogic(dimension);
-            this.drawer = new GameDrawer(new GameLogic(dimension), Screen);
+            this.buildField();
+            this.logicBlue = new GameLogic(blue, dimension, field);
+            this.logicRed = new AILogic(red, dimension, field);
+            this.current = logicBlue;
+            this.drawer = new GameDrawer(Screen, current);
+            this.movesMade = new Stack<int[,]>();
+        }
+
+        private void buildField()
+        {
+            this.field = new int[this.dimension, this.dimension];
+            for (int x = 0; x < this.dimension; x++)
+            {
+                for (int y = 0; y < this.dimension; y++)
+                {
+                    this.field[x, y] = 0;
+                }
+            }
+            this.field[this.dimension / 2 - 1, this.dimension / 2 - 1] = blue;
+            this.field[this.dimension / 2 - 1, this.dimension / 2] = red;
+            this.field[this.dimension / 2, this.dimension / 2 - 1] = red;
+            this.field[this.dimension / 2, this.dimension / 2] = blue;
         }
     }
 }

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIClass.cs" />
+    <Compile Include="AILogic.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +99,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\blackLeather.jpg" />
+    <None Include="Resources\return_button.bmp" />
+    <None Include="Resources\returnButton.bmp" />
+    <None Include="Properties\return_button.bmp" />
     <Content Include="reversi_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

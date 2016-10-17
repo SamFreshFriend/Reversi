@@ -10,15 +10,24 @@ namespace Reversi
 {
     class GameLogic
     {
-        private int dimensions;
+        private int dimension;
+        private int player;
+        private int opponent;
         private const int blue = 1;
         private const int red = 2;
-        private int current;
-        private int opposite;
         private int[,] field;
         private int x;
         private int y;
+        private List<Vector> directions;
         private bool[,] currentPossibilities;
+        protected virtual bool computer
+        {
+            get { return false; }
+        }
+        public bool whoAmI
+        {
+            get { return computer; }
+        }
 
         public bool[,] Possibilities
         {
@@ -28,101 +37,62 @@ namespace Reversi
             }
         }
 
-        public int Current
+        public int Player
         {
-            get { return current; }
+            get { return player; }
         }
-        public int Opposite
+        public int Opponent
         {
-            get { return opposite; }
+            get { return opponent; }
         }
-        public int getBlueScore
-        {
-            get
-            {
-                int score = 0;
-                foreach (int i in field)
-                {
-                    if (i == blue) score++;
-                }
-                return score;
 
-            }
-        }
-        public int getRedScore
-        {
-            get
-            {
-                int score = 0;
-                foreach (int i in field)
-                {
-                    if (i == red) score++;
-                }
-                return score;
-
-            }
-        }
-        public int Blue
-        {
-            get { return blue; }
-        }
-        public int Red
-        {
-            get { return red; }
-        }
         public int[,] Field
         {
+            set { this.field = value; }
             get { return field; }
         }
 
-        public int Dimensions
+        public int Dimension
         {
-            set { this.dimensions = value; }
-            get { return this.dimensions; }
+            set { this.dimension = value; }
+            get { return this.dimension; }
         }
-        
-        public GameLogic(int dimensions, int[,] field = null)
+
+        public GameLogic(int player, int dimension, int[,] field)
         {
-            this.current = blue;
-            this.opposite = red;
-            this.dimensions = dimensions;
-            if (field != null) this.field = field;
-            else this.buildField();
-            this.currentPossibilities = new bool[this.dimensions, this.dimensions];
+            this.player = player;
+            this.opponent = (this.player == blue) ? blue : red;
+            this.dimension = dimension;
+            this.field = field;
+            this.currentPossibilities = new bool[this.dimension, this.dimension];
             this.updateCurrentPossibilities();
         }
 
         // Clones an existing GameLogic
         public GameLogic(GameLogic logic)
         {
-            this.field = (int[,]) logic.Field.Clone();
+            this.field = (int[,])logic.Field.Clone();
             this.currentPossibilities = (bool[,])logic.Possibilities.Clone();
-            this.current = logic.Current;
-            this.opposite = logic.Opposite;
-            this.dimensions = logic.Dimensions;
-        }
-
-        public void changeCurrent()
-        {
-            int cu = this.current;
-            this.current = opposite;
-            this.opposite = cu;
+            //this.current = logic.Current;
+            //this.opposite = logic.Opposite;
+            this.dimension = logic.Dimension;
         }
 
         public void updateCurrentPossibilities()
         {
-            for (int x = 0; x < dimensions; x++)
+            for (int x = 0; x < dimension; x++)
             {
-                for (int y = 0; y < dimensions; y++)
+                for (int y = 0; y < dimension; y++)
                 {
                     this.x = x;
                     this.y = y;
+                    this.lookForNeighbours();
                     this.currentPossibilities[x, y] =
-                        field[x, y] == 0 && lookForNeighbours().Count != 0;
+                        field[x, y] == 0 && directions.Count != 0;
                 }
             }
         }
-        
+
         /// <summary>
         /// Checks the Possibilities array, if it contains at least one possibility
         /// </summary>
@@ -135,10 +105,10 @@ namespace Reversi
             }
             return false;
         }
-        
-        private List<Vector> lookForNeighbours()
+
+        private void lookForNeighbours()
         {
-            List<Vector> directions = new List<Vector>();
+            this.directions = new List<Vector>();
             for (int i = -1; i <= 1; i++)
             {
                 for (int p = -1; p <= 1; p++)
@@ -146,17 +116,17 @@ namespace Reversi
                     if (outOfReach(this.x, this.y, i, p)) continue;
                     if (field[x + i, y + p] == field[x, y]) continue;
 
-                    if (field[x + i, y + p] == opposite)
+                    if (field[x + i, y + p] == opponent)
                     {
                         int x = this.x;
                         int y = this.y;
-                        while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opposite)
+                        while (!outOfReach(x, y, i, p) && field[x + i, y + p] == this.opponent)
                         {
                             x += i;
                             y += p;
 
                         }
-                        if (!outOfReach(x, y, i, p) && field[x + i, y + p] == current)
+                        if (!outOfReach(x, y, i, p) && field[x + i, y + p] == player)
                         {
                             directions.Add(new Vector(i, p));
                         }
@@ -165,68 +135,56 @@ namespace Reversi
 
                 }
             }
-            return directions;
         }
 
         private bool outOfReach(int x, int y, int i, int p)
         {
-            return (x + i < 0 || x + i >= dimensions) || (y + p < 0 || y + p >= dimensions);
+            return (x + i < 0 || x + i >= dimension) || (y + p < 0 || y + p >= dimension);
         }
 
 
-        private void continueOnRoute(List<Vector> vectorList)
+        private void continueOnRoute()
         {
-            foreach (Vector v in vectorList)
+            foreach (Vector v in this.directions)
             {
                 Console.WriteLine(v);
                 int i = (int)v.X;
                 int p = (int)v.Y;
                 int x = this.x;
                 int y = this.y;
-                while (field[x + i, y + p] == this.opposite)
+                while (field[x + i, y + p] == this.opponent)
                 {
                     x += i;
                     y += p;
-                    field[x, y] = current;
+                    field[x, y] = player;
                 }
 
             }
         }
-
-
-        public void makeMove(int x, int y)
+        public bool checkMove(int x, int y)
         {
             this.x = x;
             this.y = y;
             if (this.field[x, y] == 0)
             {
-                List<Vector> vectorList = this.lookForNeighbours();
-                if (vectorList.Count != 0)
+                this.lookForNeighbours();
+                if (directions.Count != 0)
                 {
-                    this.continueOnRoute(vectorList);
-                    Console.WriteLine("hoi");
-                    if (current == red) this.field[x, y] = red;
-                    else if (current == blue) this.field[x, y] = blue;
-                    this.changeCurrent();
-                    this.updateCurrentPossibilities();
+                    return true;
                 }
-                else field[x, y] = 0;
+                else return false;
             }
+            else return false;
+
         }
-        private void buildField()
+
+        public void makeMove(int x, int y)
         {
-            this.field = new int[this.dimensions, this.dimensions];
-            for (int x = 0; x < this.dimensions; x++)
-            {
-                for (int y = 0; y < this.dimensions; y++)
-                {
-                    this.field[x, y] = 0;
-                }
-            }
-            this.field[this.dimensions / 2 - 1, this.dimensions / 2 - 1] = blue;
-            this.field[this.dimensions / 2 - 1, this.dimensions / 2] = red;
-            this.field[this.dimensions / 2, this.dimensions / 2 - 1] = red;
-            this.field[this.dimensions / 2, this.dimensions / 2] = blue;
+            this.continueOnRoute();
+            this.field[x, y] = player;
+            // this.updateCurrentPossibilities();
+
         }
+
     }
 }

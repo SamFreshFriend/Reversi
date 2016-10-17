@@ -7,16 +7,20 @@ using System.Drawing;
 
 namespace Reversi
 {
-    class MiniMaxAI : AIClass
+    class MiniMaxAI : AILogic
     {
         private const int DEPTH = 3;
-        private int ourColor, opponentColor;
+        private GameClass game;
 
-        public MiniMaxAI(int dimension, int[,] field) : base(dimension, field)
+        public MiniMaxAI(int player, int dimension, int[,] field) : base(player, dimension, field)
         {
-            ourColor = logic.Current;
-            opponentColor = logic.Opposite;
+            game.Current.Possibilities
+
         }
+        public override Point getMove(GameClass Game) {
+
+            return this.BestMove;
+        };
 
         protected override int getPositionScore(int x, int y)
         {
@@ -32,7 +36,7 @@ namespace Reversi
             // When DEPTH is reached, or the game is over at this point,
             // we just return a heuristic value
             if (depth == DEPTH)
-                return getBoardScore(logic.Field, logic.Dimensions);
+                return getBoardScore(logic.Field, logic.Dimension);
 
             List<Point> moves = getPossibleMoves(logic);
             if (moves.Count == 0)
@@ -43,11 +47,11 @@ namespace Reversi
                 if (moves.Count == 0)
                 {
                     // The game is over, return a heuristic value
-                    return getBoardScore(logic.Field, logic.Dimensions);
+                    return getBoardScore(logic.Field, logic.Dimension);
                 }
             }
 
-            if (logic.Current == ourColor)
+            if (logic.Current == Player)
             {
                 // It is our turn, so we should maximize
                 int maximum = int.MinValue;
@@ -80,8 +84,8 @@ namespace Reversi
         private List<Point> getPossibleMoves(GameLogic logic)
         {
             List<Point> moves = new List<Point>();
-            for (int x = 0; x < dimension; x++)
-                for (int y = 0; y < dimension; y++)
+            for (int x = 0; x < Dimension; x++)
+                for (int y = 0; y < Dimension; y++)
                     if (logic.Possibilities[x, y])
                         moves.Add(new Point(x, y));
             return moves;
@@ -94,9 +98,9 @@ namespace Reversi
             int score = 0;
             for (int x = 0; x < dimension; x++)
                 for (int y = 0; y < dimension; y++)
-                    if (field[x, y] == ourColor)
+                    if (field[x, y] == Player)
                         score += checkPosition(x, y);
-                    else if (field[x, y] == opponentColor)
+                    else if (field[x, y] == Opponent)
                         score -= checkPosition(x, y);
             return score;
         }

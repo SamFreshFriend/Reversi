@@ -37,6 +37,7 @@
             this.Score_Blue = new System.Windows.Forms.Label();
             this.Score_Red = new System.Windows.Forms.Label();
             this.Colon = new System.Windows.Forms.Label();
+            this.backButton = new System.Windows.Forms.Button();
             this.Game_panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,7 +97,7 @@
             this.TurnLabel.BackColor = System.Drawing.Color.Transparent;
             this.TurnLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TurnLabel.ForeColor = System.Drawing.Color.Blue;
-            this.TurnLabel.Location = new System.Drawing.Point(405, 27);
+            this.TurnLabel.Location = new System.Drawing.Point(370, 24);
             this.TurnLabel.Name = "TurnLabel";
             this.TurnLabel.Size = new System.Drawing.Size(89, 31);
             this.TurnLabel.TabIndex = 4;
@@ -108,7 +109,7 @@
             this.Score_Blue.BackColor = System.Drawing.Color.Transparent;
             this.Score_Blue.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Score_Blue.ForeColor = System.Drawing.Color.Blue;
-            this.Score_Blue.Location = new System.Drawing.Point(526, 27);
+            this.Score_Blue.Location = new System.Drawing.Point(491, 24);
             this.Score_Blue.Name = "Score_Blue";
             this.Score_Blue.Size = new System.Drawing.Size(30, 31);
             this.Score_Blue.TabIndex = 5;
@@ -120,7 +121,7 @@
             this.Score_Red.BackColor = System.Drawing.Color.Transparent;
             this.Score_Red.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Score_Red.ForeColor = System.Drawing.Color.Red;
-            this.Score_Red.Location = new System.Drawing.Point(580, 27);
+            this.Score_Red.Location = new System.Drawing.Point(545, 24);
             this.Score_Red.Name = "Score_Red";
             this.Score_Red.Size = new System.Drawing.Size(30, 31);
             this.Score_Red.TabIndex = 6;
@@ -132,11 +133,23 @@
             this.Colon.BackColor = System.Drawing.Color.Transparent;
             this.Colon.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Colon.ForeColor = System.Drawing.Color.Blue;
-            this.Colon.Location = new System.Drawing.Point(562, 31);
+            this.Colon.Location = new System.Drawing.Point(527, 28);
             this.Colon.Name = "Colon";
             this.Colon.Size = new System.Drawing.Size(16, 24);
             this.Colon.TabIndex = 7;
             this.Colon.Text = ":";
+            // 
+            // backButton
+            // 
+            this.backButton.BackColor = System.Drawing.Color.Transparent;
+            this.backButton.Image = global::Reversi.Properties.Resources.return_button;
+            this.backButton.Location = new System.Drawing.Point(599, 12);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(52, 52);
+            this.backButton.TabIndex = 8;
+            this.backButton.UseVisualStyleBackColor = false;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
+            this.backButton.Enabled = false;
             // 
             // Form1
             // 
@@ -144,6 +157,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(684, 661);
+            this.Controls.Add(this.backButton);
             this.Controls.Add(this.Colon);
             this.Controls.Add(this.Score_Red);
             this.Controls.Add(this.Score_Blue);
@@ -171,6 +185,7 @@
         private System.Windows.Forms.Label Score_Red;
         private System.Windows.Forms.Label Colon;
         private System.Windows.Forms.Label L_GameOver;
+        private System.Windows.Forms.Button backButton;
     }
 }
 

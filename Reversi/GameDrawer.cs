@@ -18,13 +18,14 @@ namespace Reversi
         }
         public GameLogic Logic
         {
+            set { this.logic = value; }
             get { return this.logic; }
         }
-        public GameDrawer(GameLogic g, Size s)
+        public GameDrawer(Size s)
         {
             this.logic = g;
             this.Screen = s;
-            this.dimension = logic.Dimensions;
+            this.dimension = logic.Dimension;
 
 
         }
@@ -53,16 +54,9 @@ namespace Reversi
             }
         }
 
-        public void translateMove(Point p) {
-            int x = p.X * this.dimension / this.screen.Width;
-            int y = p.Y * this.dimension / this.screen.Height;
-            this.logic.makeMove(x,y);
-
-        }
-
-
-        public void drawScreen(Graphics gr)
+        public void drawScreen(Graphics gr, GameLogic logic)
         {
+            this.logic = logic;
             int CubeSize = this.screen.Width / this.dimension;
             for (int i = 1; i < this.dimension; i++)
             {
@@ -70,11 +64,6 @@ namespace Reversi
                 int y = CubeSize * i;
                 gr.DrawLine(Pens.Green, 0, y, this.screen.Width, y);
                 gr.DrawLine(Pens.Green, x, 0, x, this.screen.Height);
-                //for (int y = 1; y < this.logic.Dimensions; y++)
-                //{
-                //    gr.DrawLine()
-
-                //}
             }
             this.drawCircles(gr, CubeSize);
             this.drawPossibilities(gr, CubeSize);

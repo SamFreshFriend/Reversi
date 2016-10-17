@@ -83,6 +83,16 @@ namespace Reversi.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap return_button {
+            get {
+                object obj = ResourceManager.GetObject("return_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap window_vista_start_button_4900 {
             get {
                 object obj = ResourceManager.GetObject("window_vista_start_button_4900", resourceCulture);

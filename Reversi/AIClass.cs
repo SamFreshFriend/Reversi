@@ -9,9 +9,9 @@ namespace Reversi
 {
     class AIClass
     {
-        private const int score_high = 3;
-        private const int score_medium = 1;
-        private const int score_neutral = 0;
+        private const int score_high = 5;
+        private const int score_medium = 2;
+        private const int score_neutral = 1;
         private const int score_low = -2;
         protected GameLogic logic;
         protected int dimension;
@@ -21,8 +21,8 @@ namespace Reversi
         public AIClass(int dimension, int[,] field)
         {
             this.dimension = dimension;
-            logic = new GameLogic(this.dimension, field);
-            this.logic.changeCurrent();
+            logic = new GameLogic(2, this.dimension, field);
+            //this.logic.changeCurrent();
             this.buildScoreField();
 
         }

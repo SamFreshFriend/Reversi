@@ -13,26 +13,21 @@ namespace Reversi
     public partial class Form1 : Form
     {
         GameClass Game;
-        GameLogic logic;
-        GameDrawer drawer;
+
         public Form1()
         {
             InitializeComponent();
             this.Game = new GameClass(this.Game_panel.Size);
-            this.logic = new GameLogic(6);
-            this.drawer = new GameDrawer(logic, this.Game_panel.Size);
+
         }
 
         private void Game_panel_Paint(object sender, PaintEventArgs e)
         {
-            //Control c = (Control)sender;//
             Game.drawHandler(e.Graphics);
-            //drawer.drawScreen(e.Graphics);//
-            this.Invalidate();
 
         }
         private void checkLabels() {
-            switch (this.Game.Current)
+            switch (this.Game.Current.Player)
             {
                 case -1: break;
                 case 1:
@@ -48,18 +43,18 @@ namespace Reversi
                         break;
                     }
             }
-            this.Score_Blue.Text = this.Game.Logic.getBlueScore.ToString();
-            this.Score_Red.Text = this.Game.Logic.getRedScore.ToString();
+            this.Score_Blue.Text = this.Game.getBlueScore.ToString();
+            this.Score_Red.Text = this.Game.getRedScore.ToString();
             if (this.Game.GameOver)
             {
                 this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
                 this.L_GameOver.Location = new Point(0, 0);
-                if (this.Game.Logic.getBlueScore > this.Game.Logic.getRedScore)
+                if (this.Game.getBlueScore > this.Game.getRedScore)
                 {
                     this.L_GameOver.Text = "BLUE WINS";
                     this.L_GameOver.ForeColor = Color.Blue;
                 }
-                else if (this.Game.Logic.getBlueScore == this.Game.Logic.getRedScore)
+                else if (this.Game.getBlueScore == this.Game.getRedScore)
                 {
                     this.L_GameOver.Text = "DRAW";
                     this.L_GameOver.ForeColor = Color.Black;
@@ -76,11 +71,12 @@ namespace Reversi
         {
             Game.mouseEvent(e.Location);
             this.checkLabels();
+            //this.backButton.Enabled = (this.Game.MovesMade.Count != 0);
             this.Refresh();
 
-            if (this.Game.VsComputerMode)
+            if (true)
             {
-                this.Game.computerMove();
+                //this.Game.computerMove();
                 this.checkLabels();
                 this.Refresh();
             }
@@ -107,7 +103,8 @@ namespace Reversi
             this.Score_Red.Text = "2";
             L_GameOver.Text = "";
             this.L_GameOver.Location = new Point(-2000, -2000);
-            this.Invalidate();
+            this.backButton.Enabled = false;
+            this.Refresh();
 
         }
 
@@ -117,6 +114,12 @@ namespace Reversi
             this.Game_panel.Size = (c.Size.Width <= c.Size.Height) ? new Size(c.Size.Width -150, c.Size.Width -150) : new Size(c.Size.Height -150, c.Size.Height- 150);
             this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
             this.Game.Screen = this.Game_panel.Size;
+            this.Refresh();
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            //this.Game.popMove();
             this.Refresh();
         }
     }
