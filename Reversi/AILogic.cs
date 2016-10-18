@@ -21,15 +21,9 @@ namespace Reversi
 
         public AILogic(int player, int dimension, int[,] field) : base(player, dimension, field)
         {
-            this.Dimension = dimension;
             this.buildScoreField();
-
         }
 
-        protected int checkPosition(int x, int y)
-        {
-            return scoreField[x, y];
-        }
         public Point getMove(GameClass Game)
         {
             game = new GameClass(Game, false, false);
@@ -54,10 +48,9 @@ namespace Reversi
         {
             // When DEPTH is reached, or the game is over at this point,
             // we just return a heuristic value
-            if (depth == DEPTH)
+            if (depth == DEPTH || Game.GameOver)
                 return getBoardScore(game.Field, Dimension);
-            //if (game.GameOver)return true;
-            // game.changeCurrent();
+
             List<Point> moves = getPossibleMoves(Game);
             if (moves.Count == 0)
             {
@@ -69,6 +62,7 @@ namespace Reversi
                     // The game is over, return a heuristic value
                     return getBoardScore(Game.Field, Dimension);
                 }
+
             }
 
             if (Game.Current.Player == Player)
@@ -100,9 +94,6 @@ namespace Reversi
                 return minimum;
             }
         }
-        // This function is overwritten by children of this class
-        // to change how they score move. For this basic AI, it
-        // just returns the value in the scoreField.
 
         private int getPositionScore(int x, int y)
         {
@@ -129,7 +120,6 @@ namespace Reversi
                 for (int y = 0; y < this.Dimension; y++)
                 {
                     if (this.Possibilities[x, y]) currentField[x, y] += getPositionScore(x, y);
-
                 }
             }
         }
@@ -164,9 +154,9 @@ namespace Reversi
             for (int x = 0; x < dimension; x++)
                 for (int y = 0; y < dimension; y++)
                     if (field[x, y] == Player)
-                        score += checkPosition(x, y);
+                        score += scoreField[x, y];
                     else if (field[x, y] == Opponent)
-                        score -= checkPosition(x, y);
+                        score -= scoreField[x, y];
             return score;
         }
 

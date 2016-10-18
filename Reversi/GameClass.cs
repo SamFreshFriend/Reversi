@@ -94,8 +94,8 @@ namespace Reversi
         {
             this.dimension = 6;
             this.buildField();
-            this.logicBlue = new GameLogic(blue, dimension, field);//(bluePlayer == computer) ? new AILogic(blue, dimension, field) : new AILogic(blue, dimension, field);
-            this.logicRed = new GameLogic(red, dimension, field);//(redPlayer == computer) ? new AILogic(blue, dimension, field) : new AILogic(blue, dimension, field);
+            this.logicBlue = (bluePlayer == computer) ? new AILogic(blue, dimension, field) : new GameLogic(blue, dimension, field);
+            this.logicRed = (redPlayer == computer) ? new AILogic(red, dimension, field) : new GameLogic(red, dimension, field);
             this.current = logicBlue;
             current.Field = field;
             current.updateCurrentPossibilities();
@@ -107,10 +107,11 @@ namespace Reversi
         }
         public GameClass(GameClass Game, bool bluePlayer = false, bool redPlayer = true)
         {
+            this.dimension = Game.dimension;
             this.field = (int[,])Game.field.Clone();
-            this.logicBlue = (bluePlayer == computer) ? new AILogic(blue, dimension, field) : new AILogic(blue, dimension, field);
-            this.logicRed = (redPlayer == computer) ? new AILogic(blue, dimension, field) : new AILogic(blue, dimension, field);
-            this.current = (Game.current.Player == blue) ? (AILogic)this.logicBlue: (AILogic)this.logicRed;
+            this.logicBlue = (bluePlayer == computer) ? new AILogic(blue, dimension, field) : new GameLogic(blue, dimension, field);
+            this.logicRed = (redPlayer == computer) ? new AILogic(blue, dimension, field) : new GameLogic(blue, dimension, field);
+            this.current = (Game.current.Player == blue) ? (GameLogic)this.logicBlue: (GameLogic)this.logicRed;
             current.Field = field;
             current.Possibilities = (bool[,])Game.current.Possibilities.Clone();
             this.previousCouldMove = Game.previousCouldMove;
@@ -122,13 +123,12 @@ namespace Reversi
             current = (current == logicBlue) ? logicRed: logicBlue;
         }
 
-        //public void computerMove()
-        //{
-        //    if (GameOver) return;
-        //    Point move = current.getMove(this);
-        //    //this.movesMade.Push(this.Logic.Field);
-        //    this.makeMove(move.X, move.Y);
-        //}
+        public void computerMove()
+        {
+            if (GameOver) return;
+            Point move = ((AILogic) current).getMove(this);
+            if (this.current.checkMove(move.X, move.Y)) this.makeMove(move.X, move.Y);
+        }
 
         public void mouseEvent(Point p)
         {
@@ -147,8 +147,7 @@ namespace Reversi
             current.updateCurrentPossibilities();
             if (current.whoAmI == computer)
             {
-
-
+                computerMove();
             }
         }
 
