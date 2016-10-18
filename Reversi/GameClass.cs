@@ -10,6 +10,8 @@ namespace Reversi
     class GameClass
     {
         GameDrawer drawer;
+        bool bluePLayer;
+        bool redPlayer;
         private GameLogic logicRed;
         private GameLogic logicBlue;
         private GameLogic current;
@@ -18,9 +20,6 @@ namespace Reversi
         private const int red = 2;
         private int[,] field;
         private bool computer = true;
-
-        AIClass Simulation;
-        bool vsComputerMode;
         private bool previousCouldMove, lastCanMove;
         Stack<int[,]> movesMade;
 
@@ -90,9 +89,10 @@ namespace Reversi
             }
         }
 
-        public GameClass(Size sz, bool bluePlayer = false, bool redPlayer = true)
+        public GameClass(Size sz, int index, bool bluePlayer = false, bool redPlayer = true)
         {
-            this.dimension = 6;
+
+            this.dimension = index;
             this.buildField();
             this.logicBlue = (bluePlayer == computer) ? new AILogic(blue, dimension, field) : new GameLogic(blue, dimension, field);
             this.logicRed = (redPlayer == computer) ? new AILogic(red, dimension, field) : new GameLogic(red, dimension, field);
@@ -175,27 +175,6 @@ namespace Reversi
                 current.updateCurrentPossibilities();
                 lastCanMove = current.canPlayerMove();
             }
-        }
-
-        public void newGame(int index)
-        {
-            switch (index)
-            {
-                case -1: dimension = 6; break;
-                case 0: dimension = 6; break;
-                case 1: dimension = 8; break;
-                case 2: dimension = 10; break;
-                case 3: dimension = 12; break;
-                case 4: dimension = 14; break;
-                case 5: dimension = 16; break;
-            }
-            //this.logic = new GameLogic(dimension);
-            this.buildField();
-            this.logicBlue = new GameLogic(blue, dimension, field);
-            this.logicRed = new GameLogic(red, dimension, field);
-            this.current = logicBlue;
-            this.drawer = new GameDrawer(Screen);
-            this.movesMade = new Stack<int[,]>();
         }
 
         private void buildField()

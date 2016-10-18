@@ -17,7 +17,7 @@ namespace Reversi
         public Form1()
         {
             InitializeComponent();
-            this.Game = new GameClass(this.Game_panel.Size);
+            this.Game = new GameClass(this.Game_panel.Size, 6);
 
         }
 
@@ -78,20 +78,16 @@ namespace Reversi
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Game.newGame(this.combo_GameMode.SelectedIndex);
-            //switch (this.combo_GameMode.SelectedIndex) {///
-
-            //    case -1: this.logic = new GameLogic(6); ; break;
-            //    case 0: this.logic = new GameLogic(6); break;
-            //    case 1: this.logic = new GameLogic(8); break;
-            //    case 2: this.logic = new GameLogic(10); break;
-            //    case 3: this.logic = new GameLogic(12); break;
-            //    case 4: this.logic = new GameLogic(14); break;
-            //    case 5: this.logic = new GameLogic(16); break;
-
-
-            //}///
-            //this.drawer = new GameDrawer(this.logic, this.Game_panel.Size);//
+            switch (combo_GameMode.SelectedIndex)
+            {
+                case -1: this.Game = new GameClass(Game_panel.Size, 6); ; break;
+                case 0: this.Game = new GameClass(Game_panel.Size, 6); ; break;
+                case 1: this.Game = new GameClass(Game_panel.Size, 8); ; break;
+                case 2: this.Game = new GameClass(Game_panel.Size, 10); ; break;
+                case 3: this.Game = new GameClass(Game_panel.Size, 12); ; break;
+                case 4: this.Game = new GameClass(Game_panel.Size, 14); ; break;
+                case 5: this.Game = new GameClass(Game_panel.Size, 16); ; break;
+            }
             this.TurnLabel.Text = "BLUE";
             this.Score_Blue.Text = "2";
             this.Score_Red.Text = "2";
