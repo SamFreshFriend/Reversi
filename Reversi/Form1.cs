@@ -57,7 +57,7 @@ namespace Reversi
                 else if (this.Game.getBlueScore == this.Game.getRedScore)
                 {
                     this.L_GameOver.Text = "DRAW";
-                    this.L_GameOver.ForeColor = Color.Black;
+                    this.L_GameOver.ForeColor = Color.FromArgb(85, 85, 85);
                 }
                 else
                 {

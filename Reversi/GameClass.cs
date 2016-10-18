@@ -128,6 +128,7 @@ namespace Reversi
             if (GameOver) return;
             Point move = ((AILogic) current).getMove(this);
             if (this.current.checkMove(move.X, move.Y)) this.makeMove(move.X, move.Y);
+            updateGameOver();
         }
 
         public void mouseEvent(Point p)
@@ -140,12 +141,13 @@ namespace Reversi
         }
         public void makeMove(int x, int y)
         {
+            if (GameOver) return;
             field = current.makeMove(x, y);
-            updateGameOver();
             this.changeCurrent();
             current.Field = field;
             current.updateCurrentPossibilities();
-            if (current.whoAmI == computer)
+            updateGameOver();
+            if (current.whoAmI == computer && !GameOver)
             {
                 computerMove();
             }
@@ -175,8 +177,6 @@ namespace Reversi
             }
         }
 
-
-
         public void newGame(int index)
         {
             switch (index)
@@ -188,8 +188,6 @@ namespace Reversi
                 case 3: dimension = 12; break;
                 case 4: dimension = 14; break;
                 case 5: dimension = 16; break;
-
-
             }
             //this.logic = new GameLogic(dimension);
             this.buildField();
