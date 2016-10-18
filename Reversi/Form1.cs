@@ -72,14 +72,8 @@ namespace Reversi
             Game.mouseEvent(e.Location);
             this.checkLabels();
             //this.backButton.Enabled = (this.Game.MovesMade.Count != 0);
-            this.Refresh();
+            Game_panel.Invalidate();
 
-            if (true)
-            {
-                //this.Game.computerMove();
-                this.checkLabels();
-                this.Refresh();
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)

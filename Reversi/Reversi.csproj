@@ -62,7 +62,6 @@
     <Compile Include="GameClass.cs" />
     <Compile Include="GameDrawer.cs" />
     <Compile Include="GameLogic.cs" />
-    <Compile Include="MiniMaxAI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

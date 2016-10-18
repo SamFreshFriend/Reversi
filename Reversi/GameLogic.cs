@@ -31,6 +31,9 @@ namespace Reversi
 
         public bool[,] Possibilities
         {
+            set {
+                currentPossibilities = value;
+            }
             get
             {
                 return currentPossibilities;
@@ -61,7 +64,7 @@ namespace Reversi
         public GameLogic(int player, int dimension, int[,] field)
         {
             this.player = player;
-            this.opponent = (this.player == blue) ? blue : red;
+            this.opponent = (this.player == blue) ? red : blue;
             this.dimension = dimension;
             this.field = field;
             this.currentPossibilities = new bool[this.dimension, this.dimension];
@@ -178,11 +181,12 @@ namespace Reversi
 
         }
 
-        public void makeMove(int x, int y)
+        public int[,] makeMove(int x, int y)
         {
             this.continueOnRoute();
             this.field[x, y] = player;
             // this.updateCurrentPossibilities();
+            return this.field;
 
         }
 
