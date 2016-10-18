@@ -26,7 +26,7 @@ namespace Reversi
 
         public Point getMove(GameClass Game)
         {
-            game = new GameClass(Game, false, false);
+            game = Game;
             this.buildCurrentField();
             this.checkPossibilities();
             Point move = this.bestMove();
@@ -49,7 +49,7 @@ namespace Reversi
             // When DEPTH is reached, or the game is over at this point,
             // we just return a heuristic value
             if (depth == DEPTH || Game.GameOver)
-                return getBoardScore(game.Field, Dimension);
+                return getBoardScore(Game.Field, Dimension);
 
             List<Point> moves = getPossibleMoves(Game);
             if (moves.Count == 0)
@@ -65,7 +65,7 @@ namespace Reversi
 
             }
 
-            if (Game.Current.Player == Player)
+            if (Game.Current.Player == this.Player)
             {
                 // It is our turn, so we should maximize
                 int maximum = int.MinValue;
@@ -79,7 +79,7 @@ namespace Reversi
 
                 return maximum;
             }
-            else
+            else if (Game.Current.Player == this.Opponent)
             {
                 // It is the opponents turn, so we should minimize
                 int minimum = int.MaxValue;
@@ -92,6 +92,10 @@ namespace Reversi
                 }
 
                 return minimum;
+            }
+            else
+            {
+                throw new Exception();
             }
         }
 

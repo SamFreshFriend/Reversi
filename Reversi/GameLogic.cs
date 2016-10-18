@@ -183,12 +183,13 @@ namespace Reversi
 
         public int[,] makeMove(int x, int y)
         {
+            this.x = x;
+            this.y = y;
+            lookForNeighbours();
+
             this.continueOnRoute();
             this.field[x, y] = player;
-            // this.updateCurrentPossibilities();
             return this.field;
-
         }
-
     }
 }

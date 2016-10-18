@@ -110,8 +110,8 @@ namespace Reversi
             this.dimension = Game.dimension;
             this.field = (int[,])Game.field.Clone();
             this.logicBlue = (bluePlayer == computer) ? new AILogic(blue, dimension, field) : new GameLogic(blue, dimension, field);
-            this.logicRed = (redPlayer == computer) ? new AILogic(blue, dimension, field) : new GameLogic(blue, dimension, field);
-            this.current = (Game.current.Player == blue) ? (GameLogic)this.logicBlue: (GameLogic)this.logicRed;
+            this.logicRed = (redPlayer == computer) ? new AILogic(red, dimension, field) : new GameLogic(red, dimension, field);
+            this.current = (Game.Current.Player == blue) ? (GameLogic)this.logicBlue: (GameLogic)this.logicRed;
             current.Field = field;
             current.Possibilities = (bool[,])Game.current.Possibilities.Clone();
             this.previousCouldMove = Game.previousCouldMove;
@@ -127,7 +127,7 @@ namespace Reversi
         {
             if (GameOver) return;
             Point move = ((AILogic) current).getMove(this);
-            if (this.current.checkMove(move.X, move.Y)) this.makeMove(move.X, move.Y);
+            this.makeMove(move.X, move.Y);
             updateGameOver();
         }
 
@@ -142,7 +142,7 @@ namespace Reversi
         public void makeMove(int x, int y)
         {
             if (GameOver) return;
-            field = current.makeMove(x, y);
+            current.makeMove(x, y);
             this.changeCurrent();
             current.Field = field;
             current.updateCurrentPossibilities();
