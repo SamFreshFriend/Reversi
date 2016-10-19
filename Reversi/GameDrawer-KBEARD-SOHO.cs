@@ -23,7 +23,10 @@ namespace Reversi
         }
         public GameDrawer(Size s)
         {
+            this.logic = g;
             this.Screen = s;
+            this.dimension = logic.Dimension;
+
 
         }
         public void drawCircles(Graphics gr, int cubeSize)
@@ -54,10 +57,8 @@ namespace Reversi
         public void drawScreen(Graphics gr, GameLogic logic)
         {
             this.logic = logic;
-            Console.WriteLine("Drawn");
-            dimension = this.logic.Dimension;
-            int CubeSize = this.screen.Width / logic.Dimension;
-            for (int i = 1; i < dimension; i++)
+            int CubeSize = this.screen.Width / this.dimension;
+            for (int i = 1; i < this.dimension; i++)
             {
                 int x = CubeSize * i;
                 int y = CubeSize * i;

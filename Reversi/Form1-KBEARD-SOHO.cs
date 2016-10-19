@@ -17,7 +17,7 @@ namespace Reversi
         public Form1()
         {
             InitializeComponent();
-            this.Game = new GameClass(this, this.Game_panel.Size, 6);
+            this.Game = new GameClass(this.Game_panel.Size);
 
         }
 
@@ -26,7 +26,7 @@ namespace Reversi
             Game.drawHandler(e.Graphics);
 
         }
-        public void checkLabels() {
+        private void checkLabels() {
             switch (this.Game.Current.Player)
             {
                 case -1: break;
@@ -57,7 +57,7 @@ namespace Reversi
                 else if (this.Game.getBlueScore == this.Game.getRedScore)
                 {
                     this.L_GameOver.Text = "DRAW";
-                    this.L_GameOver.ForeColor = Color.FromArgb(85, 85, 85);
+                    this.L_GameOver.ForeColor = Color.Black;
                 }
                 else
                 {
@@ -72,22 +72,32 @@ namespace Reversi
             Game.mouseEvent(e.Location);
             this.checkLabels();
             //this.backButton.Enabled = (this.Game.MovesMade.Count != 0);
-            Game_panel.Invalidate();
+            this.Refresh();
 
+            if (true)
+            {
+                //this.Game.computerMove();
+                this.checkLabels();
+                this.Refresh();
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            switch (combo_GameMode.SelectedIndex)
-            {
-                case -1: this.Game = new GameClass(this, Game_panel.Size, 6); ; break;
-                case 0: this.Game = new GameClass(this, Game_panel.Size, 6); ; break;
-                case 1: this.Game = new GameClass(this, Game_panel.Size, 8); ; break;
-                case 2: this.Game = new GameClass(this, Game_panel.Size, 10); ; break;
-                case 3: this.Game = new GameClass(this, Game_panel.Size, 12); ; break;
-                case 4: this.Game = new GameClass(this, Game_panel.Size, 14); ; break;
-                case 5: this.Game = new GameClass(this, Game_panel.Size, 16); ; break;
-            }
+            this.Game.newGame(this.combo_GameMode.SelectedIndex);
+            //switch (this.combo_GameMode.SelectedIndex) {///
+
+            //    case -1: this.logic = new GameLogic(6); ; break;
+            //    case 0: this.logic = new GameLogic(6); break;
+            //    case 1: this.logic = new GameLogic(8); break;
+            //    case 2: this.logic = new GameLogic(10); break;
+            //    case 3: this.logic = new GameLogic(12); break;
+            //    case 4: this.logic = new GameLogic(14); break;
+            //    case 5: this.logic = new GameLogic(16); break;
+
+
+            //}///
+            //this.drawer = new GameDrawer(this.logic, this.Game_panel.Size);//
             this.TurnLabel.Text = "BLUE";
             this.Score_Blue.Text = "2";
             this.Score_Red.Text = "2";
