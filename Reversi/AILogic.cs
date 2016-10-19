@@ -16,7 +16,7 @@ namespace Reversi
         private int[,] scoreField;
         private int[,] currentField;
         protected override bool computer { get { return true; } }
-        private const int DEPTH = 3;
+        private const int DEPTH = 6;
         private GameClass game;
 
         public AILogic(int player, int dimension, int[,] field) : base(player, dimension, field)
@@ -44,7 +44,7 @@ namespace Reversi
 
             }
         }
-        private int miniMax(GameClass Game, int depth)
+        private int miniMax(GameClass Game, double alpha, double beta, int depth)
         {
             // When DEPTH is reached, or the game is over at this point,
             // we just return a heuristic value
@@ -74,7 +74,11 @@ namespace Reversi
                 {
                     GameClass newGame = new GameClass(Game, false, false);
                     newGame.makeMove(move.X, move.Y);
-                    maximum = Math.Max(maximum, miniMax(newGame, depth + 1));
+                    maximum = Math.Max(maximum, miniMax(newGame, alpha, beta, depth + 1));
+
+                    alpha = Math.Max(alpha, maximum);
+                    // Beta cutoff
+                    if (beta <= alpha) break;
                 }
 
                 return maximum;
@@ -88,7 +92,11 @@ namespace Reversi
                 {
                     GameClass newGame = new GameClass(Game, false, false);
                     newGame.makeMove(move.X, move.Y);
-                    minimum = Math.Min(minimum, miniMax(newGame, depth + 1));
+                    minimum = Math.Min(minimum, miniMax(newGame, alpha, beta, depth + 1));
+
+                    beta = Math.Min(beta, minimum);
+                    // Alpha cutoff
+                    if (beta <= alpha) break;
                 }
 
                 return minimum;
@@ -105,7 +113,7 @@ namespace Reversi
             // value (score) of this move.
             GameClass newGame = new GameClass(game, false, false);
             newGame.makeMove(x, y);
-            return miniMax(newGame, 1);
+            return miniMax(newGame, double.NegativeInfinity, double.PositiveInfinity, 1);
         }
         private List<Point> getPossibleMoves(GameClass Game)
         {
