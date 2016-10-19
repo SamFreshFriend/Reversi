@@ -13,8 +13,8 @@ namespace Reversi
         private int dimension;
         private int player;
         private int opponent;
-        private const int blue = 1;
-        private const int red = 2;
+        public const int blue = 1;
+        public const int red = 2;
         private int[,] field;
         private int x;
         private int y;

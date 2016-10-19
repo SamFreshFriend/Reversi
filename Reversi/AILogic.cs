@@ -48,8 +48,10 @@ namespace Reversi
         {
             // When DEPTH is reached, or the game is over at this point,
             // we just return a heuristic value
-            if (depth == DEPTH || Game.GameOver)
+            if (depth == DEPTH)
                 return getBoardScore(Game.Field, Dimension);
+            else if (Game.GameOver)
+                return getGameOverBoardScore(Game, Dimension);
 
             List<Point> moves = getPossibleMoves(Game);
             if (moves.Count == 0)
@@ -60,7 +62,7 @@ namespace Reversi
                 if (moves.Count == 0)
                 {
                     // The game is over, return a heuristic value
-                    return getBoardScore(Game.Field, Dimension);
+                    return getGameOverBoardScore(Game, Dimension);
                 }
 
             }
@@ -170,6 +172,33 @@ namespace Reversi
                     else if (field[x, y] == Opponent)
                         score -= scoreField[x, y];
             return score;
+        }
+
+        private int getGameOverBoardScore(GameClass Game, int dimension)
+        {
+            double score = 0;
+            double scorePerTile;
+            if (Game.getRedScore > Game.getBlueScore && this.Player == red ||
+                Game.getBlueScore > Game.getRedScore && this.Player == blue)
+            {
+                scorePerTile = 2;
+            }
+            else if (Game.getBlueScore > Game.getRedScore && this.Player == red ||
+                Game.getRedScore > Game.getBlueScore && this.Player == blue)
+            {
+                scorePerTile = 0.2;
+            }
+            else
+            {
+                scorePerTile = 1;
+            }
+
+            for (int x = 0; x < dimension; x++)
+                for (int y = 0; y < dimension; y++)
+                    if (Game.Field[x, y] == this.Player) score += scorePerTile;
+                    else if (Game.Field[x, y] == this.Opponent) score -= scorePerTile;
+
+            return (int)score;
         }
 
         private void buildScoreField()
