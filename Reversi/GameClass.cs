@@ -90,14 +90,14 @@ namespace Reversi
             }
         }
 
-        public GameClass( Form1 f, Size sz, int index, bool bluePlayer = false, bool redPlayer = true)
+        public GameClass( Form1 f, Size sz, int index, bool bluePlayer, bool redPlayer)
         {
             this.Form = f;
             this.dimension = index;
             this.buildField();
             this.logicBlue = (bluePlayer == computer) ? new AILogic(blue, dimension, field) : new GameLogic(blue, dimension, field);
             this.logicRed = (redPlayer == computer) ? new AILogic(red, dimension, field) : new GameLogic(red, dimension, field);
-            this.current = logicBlue;
+            this.current = (bluePlayer == redPlayer) ? ((new Random().Next(1) == 1)? logicBlue : logicRed) : (bluePlayer == computer)? logicRed: logicBlue;
             current.Field = field;
             current.updateCurrentPossibilities();
             this.drawer = new GameDrawer(sz);

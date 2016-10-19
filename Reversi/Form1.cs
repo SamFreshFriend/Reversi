@@ -17,7 +17,7 @@ namespace Reversi
         public Form1()
         {
             InitializeComponent();
-            this.Game = new GameClass(this, this.Game_panel.Size, 6);
+            this.Game = new GameClass(this, this.Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked);
 
         }
 
@@ -65,6 +65,8 @@ namespace Reversi
                     this.L_GameOver.ForeColor = Color.Red;
                 }
             }
+            else this.L_GameOver.Text = "";
+            this.L_GameOver.Location = new Point(-2000, -2000);
         }
 
         private void Game_panel_MouseClick(object sender, MouseEventArgs e)
@@ -80,19 +82,16 @@ namespace Reversi
         {
             switch (combo_GameMode.SelectedIndex)
             {
-                case -1: this.Game = new GameClass(this, Game_panel.Size, 6); ; break;
-                case 0: this.Game = new GameClass(this, Game_panel.Size, 6); ; break;
-                case 1: this.Game = new GameClass(this, Game_panel.Size, 8); ; break;
-                case 2: this.Game = new GameClass(this, Game_panel.Size, 10); ; break;
-                case 3: this.Game = new GameClass(this, Game_panel.Size, 12); ; break;
-                case 4: this.Game = new GameClass(this, Game_panel.Size, 14); ; break;
-                case 5: this.Game = new GameClass(this, Game_panel.Size, 16); ; break;
+                case -1: this.Game = new GameClass(this, Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
+                case 0: this.Game = new GameClass(this, Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
+                case 1: this.Game = new GameClass(this, Game_panel.Size, 8, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
+                case 2: this.Game = new GameClass(this, Game_panel.Size, 10, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
+                case 3: this.Game = new GameClass(this, Game_panel.Size, 12, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
+                case 4: this.Game = new GameClass(this, Game_panel.Size, 14, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
+                case 5: this.Game = new GameClass(this, Game_panel.Size, 16, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
             }
-            this.TurnLabel.Text = "BLUE";
-            this.Score_Blue.Text = "2";
-            this.Score_Red.Text = "2";
-            L_GameOver.Text = "";
-            this.L_GameOver.Location = new Point(-2000, -2000);
+            this.checkLabels();
+            if (this.checkBoxB.Checked == true && this.checkBoxR.Checked == true) Game.computerMove();
             this.backButton.Enabled = false;
             this.Refresh();
 
@@ -111,6 +110,14 @@ namespace Reversi
         {
             //this.Game.popMove();
             this.Refresh();
+        }
+
+        private void pause() {
+            // Pause App
+        }
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 'K') pause();
         }
     }
 }

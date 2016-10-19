@@ -38,6 +38,11 @@
             this.Score_Red = new System.Windows.Forms.Label();
             this.Colon = new System.Windows.Forms.Label();
             this.backButton = new System.Windows.Forms.Button();
+            this.labelIsComputer = new System.Windows.Forms.Label();
+            this.labelR = new System.Windows.Forms.Label();
+            this.labelB = new System.Windows.Forms.Label();
+            this.checkBoxB = new System.Windows.Forms.CheckBox();
+            this.checkBoxR = new System.Windows.Forms.CheckBox();
             this.Game_panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -142,6 +147,7 @@
             // backButton
             // 
             this.backButton.BackColor = System.Drawing.Color.Transparent;
+            this.backButton.Enabled = false;
             this.backButton.Image = global::Reversi.Properties.Resources.return_button;
             this.backButton.Location = new System.Drawing.Point(599, 12);
             this.backButton.Name = "backButton";
@@ -149,7 +155,63 @@
             this.backButton.TabIndex = 8;
             this.backButton.UseVisualStyleBackColor = false;
             this.backButton.Click += new System.EventHandler(this.backButton_Click);
-            this.backButton.Enabled = false;
+            // 
+            // labelIsComputer
+            // 
+            this.labelIsComputer.AutoSize = true;
+            this.labelIsComputer.BackColor = System.Drawing.Color.Transparent;
+            this.labelIsComputer.ForeColor = System.Drawing.Color.Lime;
+            this.labelIsComputer.Location = new System.Drawing.Point(36, 106);
+            this.labelIsComputer.Name = "labelIsComputer";
+            this.labelIsComputer.Size = new System.Drawing.Size(58, 13);
+            this.labelIsComputer.TabIndex = 9;
+            this.labelIsComputer.Text = "Computer?";
+            // 
+            // labelR
+            // 
+            this.labelR.AutoSize = true;
+            this.labelR.BackColor = System.Drawing.Color.Transparent;
+            this.labelR.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelR.ForeColor = System.Drawing.Color.Red;
+            this.labelR.Location = new System.Drawing.Point(10, 214);
+            this.labelR.Name = "labelR";
+            this.labelR.Size = new System.Drawing.Size(42, 39);
+            this.labelR.TabIndex = 10;
+            this.labelR.Text = "R";
+            // 
+            // labelB
+            // 
+            this.labelB.AutoSize = true;
+            this.labelB.BackColor = System.Drawing.Color.Transparent;
+            this.labelB.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelB.ForeColor = System.Drawing.Color.Blue;
+            this.labelB.Location = new System.Drawing.Point(12, 135);
+            this.labelB.Name = "labelB";
+            this.labelB.Size = new System.Drawing.Size(40, 39);
+            this.labelB.TabIndex = 12;
+            this.labelB.Text = "B";
+            // 
+            // checkBoxB
+            // 
+            this.checkBoxB.AutoSize = true;
+            this.checkBoxB.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxB.Location = new System.Drawing.Point(68, 155);
+            this.checkBoxB.Name = "checkBoxB";
+            this.checkBoxB.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxB.TabIndex = 13;
+            this.checkBoxB.UseVisualStyleBackColor = false;
+            // 
+            // checkBoxR
+            // 
+            this.checkBoxR.AutoSize = true;
+            this.checkBoxR.BackColor = System.Drawing.Color.Transparent;
+            this.checkBoxR.Checked = true;
+            this.checkBoxR.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxR.Location = new System.Drawing.Point(68, 230);
+            this.checkBoxR.Name = "checkBoxR";
+            this.checkBoxR.Size = new System.Drawing.Size(15, 14);
+            this.checkBoxR.TabIndex = 14;
+            this.checkBoxR.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 
@@ -157,6 +219,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(684, 661);
+            this.Controls.Add(this.checkBoxR);
+            this.Controls.Add(this.checkBoxB);
+            this.Controls.Add(this.labelB);
+            this.Controls.Add(this.labelR);
+            this.Controls.Add(this.labelIsComputer);
             this.Controls.Add(this.backButton);
             this.Controls.Add(this.Colon);
             this.Controls.Add(this.Score_Red);
@@ -168,6 +235,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Reversi";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.Game_panel.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -186,6 +254,11 @@
         private System.Windows.Forms.Label Colon;
         private System.Windows.Forms.Label L_GameOver;
         private System.Windows.Forms.Button backButton;
+        private System.Windows.Forms.Label labelIsComputer;
+        private System.Windows.Forms.Label labelR;
+        private System.Windows.Forms.Label labelB;
+        private System.Windows.Forms.CheckBox checkBoxB;
+        private System.Windows.Forms.CheckBox checkBoxR;
     }
 }
 
