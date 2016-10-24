@@ -154,7 +154,7 @@ namespace Reversi
             updateGameOver();
             if (current.whoAmI == computer && !GameOver)
             {
-                this.updateForm();
+                //this.updateForm();
                 computerMove();
 
             }

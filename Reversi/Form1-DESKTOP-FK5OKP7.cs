@@ -7,14 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace Reversi
 {
     public partial class Form1 : Form
     {
         GameClass Game;
-        Thread thread;
 
         public Form1()
         {
@@ -28,7 +26,8 @@ namespace Reversi
             Game.drawHandler(e.Graphics);
 
         }
-        public void checkLabels() {
+        public void checkLabels()
+        {
             switch (this.Game.Current.Player)
             {
                 case -1: break;
@@ -67,8 +66,11 @@ namespace Reversi
                     this.L_GameOver.ForeColor = Color.Red;
                 }
             }
-            else this.L_GameOver.Text = "";
-            this.L_GameOver.Location = new Point(-2000, -2000);
+            else
+            {
+                this.L_GameOver.Text = "";
+                this.L_GameOver.Location = new Point(-2000, -2000);
+            }
         }
 
         private void Game_panel_MouseClick(object sender, MouseEventArgs e)
@@ -102,7 +104,7 @@ namespace Reversi
         private void Form1_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
-            this.Game_panel.Size = (c.Size.Width <= c.Size.Height) ? new Size(c.Size.Width -150, c.Size.Width -150) : new Size(c.Size.Height -150, c.Size.Height- 150);
+            this.Game_panel.Size = (c.Size.Width <= c.Size.Height) ? new Size(c.Size.Width - 150, c.Size.Width - 150) : new Size(c.Size.Height - 150, c.Size.Height - 150);
             this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
             this.Game.Screen = this.Game_panel.Size;
             this.Refresh();
@@ -114,19 +116,13 @@ namespace Reversi
             this.Refresh();
         }
 
-
-        //private void StartStopButton_Click(object sender, EventArgs e)
-        //{
-        //    if (StartStopButton.Text == "Start")
-        //    {
-        //        thread = new Thread(Game.computerMove);
-        //        thread.Start();
-        //        StartStopButton.Text = "Stop";
-        //    }
-        //    else if (StartStopButton.Text == "Stop") {
-        //        thread = null;
-        //        StartStopButton.Text = "Start";
-        //    }
-        //}
+        private void pause()
+        {
+            // Pause App
+        }
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 'K') pause();
+        }
     }
 }
