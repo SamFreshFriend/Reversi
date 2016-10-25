@@ -123,18 +123,20 @@ namespace Reversi
         public void startThread()
         {
             this.checkLabels();
+            StartStopButton.Text = "Stop";
             this.Refresh();
             thread = new Thread(Game.computerMove);
             thread.Start();
-            StartStopButton.Text = "Stop";
+            
         }
 
         public void stopThread()
         {
             this.checkLabels();
+            StartStopButton.Text = "Start";
             this.Refresh();
             thread = null;
-            StartStopButton.Text = "Start";
+            
         }
         private void StartStopButton_Click(object sender, EventArgs e)
         {

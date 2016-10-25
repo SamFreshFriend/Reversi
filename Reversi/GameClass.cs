@@ -29,7 +29,8 @@ namespace Reversi
         //    get { return this.movesMade;  }
         //}
 
-        public bool ComputerVcomputerMode {
+        public bool ComputerVcomputerMode
+        {
             set { this.computerVcomputerMode = value; }
         }
         public int[,] Field
@@ -90,7 +91,7 @@ namespace Reversi
         {
             get
             {
-                return !previousCouldMove && !lastCanMove;
+                return (!previousCouldMove && !lastCanMove);
             }
         }
 
@@ -130,11 +131,21 @@ namespace Reversi
 
         public void computerMove()
         {
-
-            if (GameOver) return;
-            Point move = ((AILogic)current).getMove(this);
-            this.makeMove(move.X, move.Y);
-            updateGameOver();
+            while (current.whoAmI == computer && !GameOver)
+            {
+                if (GameOver) return;
+                try
+                {
+                    Point move = ((AILogic)current).getMove(this);
+                    this.makeMove(move.X, move.Y);
+                }
+                catch
+                {
+                    changeCurrent();
+                    updateGameOver();
+                }
+                //updateGameOver();
+            }
         }
 
         public void mouseEvent(Point p)
@@ -143,6 +154,11 @@ namespace Reversi
             int y = p.Y * this.dimension / this.Screen.Height;
             //this.movesMade.Push(this.Logic.Field);
             if (this.current.checkMove(x, y)) makeMove(x, y);
+            if (current.whoAmI == computer && !GameOver)
+            {
+                if (!computerVcomputerMode) this.updateForm();
+                computerMove();
+            }
 
         }
         private void updateForm()
@@ -152,30 +168,19 @@ namespace Reversi
         }
         public void makeMove(int x, int y)
         {
-            if (GameOver) return; 
+            if (GameOver) return;
             current.makeMove(x, y);
             this.changeCurrent();
             current.Field = field;
             current.updateCurrentPossibilities();
             updateGameOver();
-            if (current.whoAmI == computer && !GameOver)
-            {
-                if(!computerVcomputerMode) this.updateForm();
-                computerMove();
+            //if (current.whoAmI == computer && !GameOver)
+            //{
+            //    if(!computerVcomputerMode) this.updateForm();
+            //    computerMove();
 
-            }
+            //}
         }
-
-        //public void popMove() {
-        //    try
-        //    {
-        //        Console.WriteLine();
-        //        this.movesMade.Pop();
-        //        this.Logic.Field = this.movesMade.First();
-        //        this.Logic.changeCurrent();
-        //    }
-        //    catch { }
-        //}
 
         private void updateGameOver()
         {
