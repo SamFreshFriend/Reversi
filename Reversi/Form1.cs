@@ -67,8 +67,11 @@ namespace Reversi
                     this.L_GameOver.ForeColor = Color.Red;
                 }
             }
-            else this.L_GameOver.Text = "";
-            this.L_GameOver.Location = new Point(-2000, -2000);
+            else
+            {
+                this.L_GameOver.Text = "";
+                this.L_GameOver.Location = new Point(-1500, -1550);
+            }
         }
 
         private void Game_panel_MouseClick(object sender, MouseEventArgs e)
@@ -82,6 +85,7 @@ namespace Reversi
 
         private void button1_Click(object sender, EventArgs e)
         {
+            StartStopButton.Visible = false;
             switch (combo_GameMode.SelectedIndex)
             {
                 case -1: this.Game = new GameClass(this, Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
@@ -92,9 +96,9 @@ namespace Reversi
                 case 4: this.Game = new GameClass(this, Game_panel.Size, 14, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
                 case 5: this.Game = new GameClass(this, Game_panel.Size, 16, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
             }
+            
             this.checkLabels();
-            if (this.checkBoxB.Checked == true && this.checkBoxR.Checked == true) Game.computerMove();
-            this.backButton.Enabled = false;
+            if (this.checkBoxB.Checked == true && this.checkBoxR.Checked == true) this.StartStopButton.Visible = true;
             this.Refresh();
 
         }
@@ -108,25 +112,26 @@ namespace Reversi
             this.Refresh();
         }
 
-        private void backButton_Click(object sender, EventArgs e)
+
+
+        private void StartStopButton_Click(object sender, EventArgs e)
         {
-            //this.Game.popMove();
+            this.checkLabels();
             this.Refresh();
+            if (StartStopButton.Text == "Start")
+            {
+                
+                thread = new Thread(Game.computerMove);
+                thread.Start();
+                StartStopButton.Text = "Stop";
+            }
+            else if (StartStopButton.Text == "Stop")
+            {
+                thread = null;
+                StartStopButton.Text = "Start";
+            }
+            
         }
 
-
-        //private void StartStopButton_Click(object sender, EventArgs e)
-        //{
-        //    if (StartStopButton.Text == "Start")
-        //    {
-        //        thread = new Thread(Game.computerMove);
-        //        thread.Start();
-        //        StartStopButton.Text = "Stop";
-        //    }
-        //    else if (StartStopButton.Text == "Stop") {
-        //        thread = null;
-        //        StartStopButton.Text = "Start";
-        //    }
-        //}
     }
 }
