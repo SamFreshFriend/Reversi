@@ -8,6 +8,12 @@ using System.Windows;
 
 namespace Reversi
 {
+    /// <summary>
+    /// A GameLogic is a player used in the GameClass to manage the logic of the game.
+    /// A plain GameLogic will not think of moves itself, but will instead rely on an
+    /// outside source of moves, like a human that clicks on the screen. Subclasses of
+    /// GameLogic, like AILogic, may provide moves themselves.
+    /// </summary>
     class GameLogic
     {
         private int dimension;
@@ -24,11 +30,17 @@ namespace Reversi
         {
             get { return false; }
         }
+        /// <summary>
+        /// Returns whether this GameLogic is an AI
+        /// </summary>
         public bool whoAmI
         {
             get { return computer; }
         }
 
+        /// <summary>
+        /// All the possible moves that this GameLogic can make
+        /// </summary>
         public bool[,] Possibilities
         {
             set {
@@ -40,6 +52,9 @@ namespace Reversi
             }
         }
 
+        /// <summary>
+        /// The player that this GameLogic represents (this.blue for blue, this.red for red)
+        /// </summary>
         public int Player
         {
             get { return player; }
@@ -55,6 +70,9 @@ namespace Reversi
             get { return field; }
         }
 
+        /// <summary>
+        /// The size of the game field
+        /// </summary>
         public int Dimension
         {
             set { this.dimension = value; }
@@ -71,16 +89,9 @@ namespace Reversi
             this.updateCurrentPossibilities();
         }
 
-        // Clones an existing GameLogic
-        public GameLogic(GameLogic logic)
-        {
-            this.field = (int[,])logic.Field.Clone();
-            this.currentPossibilities = (bool[,])logic.Possibilities.Clone();
-            //this.current = logic.Current;
-            //this.opposite = logic.Opposite;
-            this.dimension = logic.Dimension;
-        }
-
+        /// <summary>
+        /// Updates the currentPossibilities array based on the current game state
+        /// </summary>
         public void updateCurrentPossibilities()
         {
             for (int x = 0; x < dimension; x++)
@@ -109,6 +120,10 @@ namespace Reversi
             return false;
         }
 
+        /// <summary>
+        /// Finds as many valid paths from (this.x, this.y), which would turn stones. 
+        /// If after calling this this.Directions.Count is not zero, a move to (this.x, this.y) is valid.
+        /// </summary>
         private void lookForNeighbours()
         {
             this.directions = new List<Vector>();
@@ -145,7 +160,9 @@ namespace Reversi
             return (x + i < 0 || x + i >= dimension) || (y + p < 0 || y + p >= dimension);
         }
 
-
+        /// <summary>
+        /// Flips the stones that are on a correct route calculated by this.LookForNeighbours from (this.x, this.y)
+        /// </summary>
         private void continueOnRoute()
         {
             foreach (Vector v in this.directions)
@@ -163,6 +180,13 @@ namespace Reversi
 
             }
         }
+
+        /// <summary>
+        /// Returns whether a move is valid
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public bool checkMove(int x, int y)
         {
             this.x = x;

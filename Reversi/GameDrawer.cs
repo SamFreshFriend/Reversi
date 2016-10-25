@@ -54,7 +54,6 @@ namespace Reversi
         public void drawScreen(Graphics gr, GameLogic logic)
         {
             this.logic = logic;
-            Console.WriteLine("Drawn");
             dimension = this.logic.Dimension;
             int CubeSize = this.screen.Width / logic.Dimension;
             for (int i = 1; i < dimension; i++)

@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace Reversi
 {
+    /// <summary>
+    /// A simple AI for Reversi.
+    /// It uses the MiniMax algorithm (https://en.wikipedia.org/wiki/MiniMax) to determine the best move.
+    /// It uses alpha beta pruning to speed up the search by discarding unimportant parts of the search
+    /// tree (https://en.wikipedia.org/wiki/Alpha-beta_pruning).
+    /// </summary>
     class AILogic : GameLogic
     {
         private const int score_high = 5;
@@ -24,6 +30,11 @@ namespace Reversi
             this.buildScoreField();
         }
 
+        /// <summary>
+        /// Returns the best move as determined by the AI.
+        /// </summary>
+        /// <param name="Game"></param>
+        /// <returns></returns>
         public Point getMove(GameClass Game)
         {
             game = Game;
@@ -44,6 +55,15 @@ namespace Reversi
 
             }
         }
+
+        /// <summary>
+        /// Calculates the MiniMax score of this board to depth this.DEPTH.
+        /// </summary>
+        /// <param name="Game"></param>
+        /// <param name="alpha"></param>
+        /// <param name="beta"></param>
+        /// <param name="depth"></param>
+        /// <returns></returns>
         private int miniMax(GameClass Game, double alpha, double beta, int depth)
         {
             // When DEPTH is reached, or the game is over at this point,
@@ -103,10 +123,6 @@ namespace Reversi
 
                 return minimum;
             }
-            else
-            {
-                throw new Exception();
-            }
         }
 
         private int getPositionScore(int x, int y)
@@ -162,6 +178,14 @@ namespace Reversi
             else return moves[0];
         }
 
+        /// <summary>
+        /// Returns a heuristic score for this field, based on the position of
+        /// our and the opponents pieces. For example, corner pieces are worth
+        /// the most and pieces next to the corner the least.
+        /// </summary>
+        /// <param name="field"></param>
+        /// <param name="dimension"></param>
+        /// <returns></returns>
         private int getBoardScore(int[,] field, int dimension)
         {
             int score = 0;

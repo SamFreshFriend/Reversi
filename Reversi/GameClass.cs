@@ -7,6 +7,12 @@ using System.Drawing;
 using System.Windows.Forms;
 namespace Reversi
 {
+    /// <summary>
+    /// The GameClass represents an entire game of Reversi with all its state, like the two players, 
+    /// the current field and the GameOver state.
+    /// It is responsible for reacting on mouseEvent calls to make moves, using the GameLogics to
+    /// transform the game, and letting the AI move when appropriate.
+    /// </summary>
     class GameClass
     {
         GameDrawer drawer;
@@ -29,11 +35,18 @@ namespace Reversi
         //    get { return this.movesMade;  }
         //}
 
+        /// <summary>
+        /// Signifies whether two computers are playing against eachother (true means two AIs are playing).
+        /// </summary>
         public bool ComputerVcomputerMode
         {
             set { this.computerVcomputerMode = value; }
             get { return this.computerVcomputerMode; }
         }
+
+        /// <summary>
+        /// The current playing field. An int value of this.blue at a location signifies a blue stone and this.red signifies a red stone.
+        /// </summary>
         public int[,] Field
         {
             get { return field; }
@@ -72,6 +85,10 @@ namespace Reversi
 
             }
         }
+
+        /// <summary>
+        /// The GameLogic who's turn it is next.
+        /// </summary>
         public GameLogic Current
         {
             get { return this.current; }
@@ -87,7 +104,9 @@ namespace Reversi
             this.drawer.drawScreen(g, current);
         }
 
-
+        /// <summary>
+        /// Whether the game is over at this point. Who won can be calculated by comparing getRedScore and getBlueScore.
+        /// </summary>
         public bool GameOver
         {
             get
@@ -108,10 +127,16 @@ namespace Reversi
             current.updateCurrentPossibilities();
             this.drawer = new GameDrawer(sz);
             this.Screen = sz;
-            // this.movesMade = new Stack<int[,]>();
             previousCouldMove = lastCanMove = true;
-
+            computerVcomputerMode = bluePlayer == computer && redPlayer == computer;
         }
+
+        /// <summary>
+        /// An alternate constructor, which is used by the AILogic, to copy a current game state into a new GameClass object.
+        /// </summary>
+        /// <param name="Game"></param>
+        /// <param name="bluePlayer"></param>
+        /// <param name="redPlayer"></param>
         public GameClass(GameClass Game, bool bluePlayer = false, bool redPlayer = true)
         {
             this.dimension = Game.dimension;
@@ -123,13 +148,20 @@ namespace Reversi
             current.Possibilities = (bool[,])Game.current.Possibilities.Clone();
             this.previousCouldMove = Game.previousCouldMove;
             this.lastCanMove = Game.lastCanMove;
+            computerVcomputerMode = bluePlayer == computer && redPlayer == computer;
         }
 
+        /// <summary>
+        /// Swaps the current, so the next player can do their turn next.
+        /// </summary>
         public void changeCurrent()
         {
             current = (current == logicBlue) ? logicRed : logicBlue;
         }
 
+        /// <summary>
+        /// Let's the AI play. If a computer is playing against a human, the AI will move repeatedly
+        /// </summary>
         public void computerMove()
         {
             while (current.whoAmI == computer && !GameOver)
@@ -141,13 +173,16 @@ namespace Reversi
             }
         }
 
+        /// <summary>
+        /// Called when the user clicks on the board, with the relative panel coordinates p.
+        /// </summary>
+        /// <param name="p"></param>
         public void mouseEvent(Point p)
         {
             if (current.whoAmI == computer) return;
 
             int x = p.X * this.dimension / this.Screen.Width;
             int y = p.Y * this.dimension / this.Screen.Height;
-            //this.movesMade.Push(this.Logic.Field);
             if (this.current.checkMove(x, y)) makeMove(x, y);
             if (current.whoAmI == computer && !GameOver)
             {
@@ -161,6 +196,11 @@ namespace Reversi
             this.Form.checkLabels();
             this.Form.Refresh();
         }
+
+        /// <summary>
+        /// Actually makes a move using the current GameLogic and the field. Also handles things that should be done after
+        /// every move, like switching teams and updating the GameOver state.
+        /// </summary>
         public void makeMove(int x, int y)
         {
             if (GameOver) return;
@@ -169,19 +209,21 @@ namespace Reversi
             current.Field = field;
             current.updateCurrentPossibilities();
             updateGameOver();
-            //if (current.whoAmI == computer && !GameOver)
-            //{
-            //    if(!computerVcomputerMode) this.updateForm();
-            //    computerMove();
-
-            //}
         }
 
+        /// <summary>
+        /// Updates the GameOver state held in the member previousCouldMove and lastCanMove
+        /// </summary>
         private void updateGameOver()
         {
+            // Once the game is over, it can't stop being over
             if (GameOver) return;
+
             previousCouldMove = lastCanMove;
             lastCanMove = current.canPlayerMove();
+
+            // If the new player can't move, the teams should be switched again and
+            // the values updated again.
             if (!lastCanMove)
             {
                 this.changeCurrent();
@@ -191,6 +233,9 @@ namespace Reversi
             }
         }
 
+        /// <summary>
+        /// Builds the initial field
+        /// </summary>
         private void buildField()
         {
             this.field = new int[this.dimension, this.dimension];

@@ -28,6 +28,10 @@ namespace Reversi
             Game.drawHandler(e.Graphics);
 
         }
+
+        /// <summary>
+        /// Updates the score and player turn labels
+        /// </summary>
         public void checkLabels()
         {
             switch (this.Game.Current.Player)
@@ -119,6 +123,9 @@ namespace Reversi
             this.Refresh();
         }
 
+        /// <summary>
+        /// Repeatedly lets the AI make a move until the "Stop" button is pressed
+        /// </summary>
         public void RunAIGame()
         {
             while (thread != null)
