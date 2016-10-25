@@ -28,7 +28,8 @@ namespace Reversi
             Game.drawHandler(e.Graphics);
 
         }
-        public void checkLabels() {
+        public void checkLabels()
+        {
             switch (this.Game.Current.Player)
             {
                 case -1: break;
@@ -51,6 +52,7 @@ namespace Reversi
             {
                 this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
                 this.L_GameOver.Location = new Point(0, 0);
+                this.StartStopButton.Visible = false;
                 if (this.Game.getBlueScore > this.Game.getRedScore)
                 {
                     this.L_GameOver.Text = "BLUE WINS";
@@ -85,6 +87,7 @@ namespace Reversi
 
         private void button1_Click(object sender, EventArgs e)
         {
+            thread = null;
             StartStopButton.Visible = false;
             switch (combo_GameMode.SelectedIndex)
             {
@@ -96,9 +99,13 @@ namespace Reversi
                 case 4: this.Game = new GameClass(this, Game_panel.Size, 14, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
                 case 5: this.Game = new GameClass(this, Game_panel.Size, 16, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
             }
-            
+
             this.checkLabels();
-            if (this.checkBoxB.Checked == true && this.checkBoxR.Checked == true) this.StartStopButton.Visible = true;
+            if (this.checkBoxB.Checked == true && this.checkBoxR.Checked == true)
+            {
+                this.StartStopButton.Visible = true;
+                Game.ComputerVcomputerMode = true;
+            }
             this.Refresh();
 
         }
@@ -106,31 +113,36 @@ namespace Reversi
         private void Form1_Resize(object sender, EventArgs e)
         {
             Control c = (Control)sender;
-            this.Game_panel.Size = (c.Size.Width <= c.Size.Height) ? new Size(c.Size.Width -150, c.Size.Width -150) : new Size(c.Size.Height -150, c.Size.Height- 150);
+            this.Game_panel.Size = (c.Size.Width <= c.Size.Height) ? new Size(c.Size.Width - 150, c.Size.Width - 150) : new Size(c.Size.Height - 150, c.Size.Height - 150);
             this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
             this.Game.Screen = this.Game_panel.Size;
             this.Refresh();
         }
 
 
-
-        private void StartStopButton_Click(object sender, EventArgs e)
+        public void startThread()
         {
             this.checkLabels();
             this.Refresh();
-            if (StartStopButton.Text == "Start")
-            {
-                
-                thread = new Thread(Game.computerMove);
-                thread.Start();
-                StartStopButton.Text = "Stop";
-            }
-            else if (StartStopButton.Text == "Stop")
-            {
-                thread = null;
-                StartStopButton.Text = "Start";
-            }
-            
+            thread = new Thread(Game.computerMove);
+            thread.Start();
+            StartStopButton.Text = "Stop";
+        }
+
+        public void stopThread()
+        {
+            this.checkLabels();
+            this.Refresh();
+            thread = null;
+            StartStopButton.Text = "Start";
+        }
+        private void StartStopButton_Click(object sender, EventArgs e)
+        {
+
+            if (StartStopButton.Text == "Start") startThread();
+            else if (StartStopButton.Text == "Stop") stopThread();
+
+
         }
 
     }

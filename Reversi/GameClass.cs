@@ -10,8 +10,8 @@ namespace Reversi
     class GameClass
     {
         GameDrawer drawer;
-        bool bluePLayer;
-        bool redPlayer;
+        //bool bluePLayer;
+        //bool redPlayer;
         private GameLogic logicRed;
         private GameLogic logicBlue;
         private GameLogic current;
@@ -22,12 +22,16 @@ namespace Reversi
         private int[,] field;
         private bool computer = true;
         private bool previousCouldMove, lastCanMove;
-        Stack<int[,]> movesMade;
+        private bool computerVcomputerMode;
+        //Stack<int[,]> movesMade;
 
         //public Stack<int[,]> MovesMade {
         //    get { return this.movesMade;  }
         //}
 
+        public bool ComputerVcomputerMode {
+            set { this.computerVcomputerMode = value; }
+        }
         public int[,] Field
         {
             get { return field; }
@@ -90,14 +94,14 @@ namespace Reversi
             }
         }
 
-        public GameClass( Form1 f, Size sz, int index, bool bluePlayer, bool redPlayer)
+        public GameClass(Form1 f, Size sz, int index, bool bluePlayer, bool redPlayer)
         {
             this.Form = f;
             this.dimension = index;
             this.buildField();
             this.logicBlue = (bluePlayer == computer) ? new AILogic(blue, dimension, field) : new GameLogic(blue, dimension, field);
             this.logicRed = (redPlayer == computer) ? new AILogic(red, dimension, field) : new GameLogic(red, dimension, field);
-            this.current = (bluePlayer == redPlayer) ? ((new Random().Next(1) == 1)? logicBlue : logicRed) : (bluePlayer == computer)? logicRed: logicBlue;
+            this.current = (bluePlayer == redPlayer) ? ((new Random().Next(2) == 1) ? logicBlue : logicRed) : (bluePlayer == computer) ? logicRed : logicBlue;
             current.Field = field;
             current.updateCurrentPossibilities();
             this.drawer = new GameDrawer(sz);
@@ -121,13 +125,14 @@ namespace Reversi
 
         public void changeCurrent()
         {
-            current = (current == logicBlue) ? logicRed: logicBlue;
+            current = (current == logicBlue) ? logicRed : logicBlue;
         }
 
         public void computerMove()
         {
+
             if (GameOver) return;
-            Point move = ((AILogic) current).getMove(this);
+            Point move = ((AILogic)current).getMove(this);
             this.makeMove(move.X, move.Y);
             updateGameOver();
         }
@@ -140,13 +145,14 @@ namespace Reversi
             if (this.current.checkMove(x, y)) makeMove(x, y);
 
         }
-        private void updateForm() {
+        private void updateForm()
+        {
             this.Form.checkLabels();
             this.Form.Refresh();
         }
         public void makeMove(int x, int y)
         {
-            if (GameOver) return;
+            if (GameOver) return; 
             current.makeMove(x, y);
             this.changeCurrent();
             current.Field = field;
@@ -154,7 +160,7 @@ namespace Reversi
             updateGameOver();
             if (current.whoAmI == computer && !GameOver)
             {
-                //this.updateForm();
+                if(!computerVcomputerMode) this.updateForm();
                 computerMove();
 
             }
