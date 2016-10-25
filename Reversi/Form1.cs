@@ -89,6 +89,7 @@ namespace Reversi
         {
             thread = null;
             StartStopButton.Visible = false;
+            stopThread();
             switch (combo_GameMode.SelectedIndex)
             {
                 case -1: this.Game = new GameClass(this, Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
