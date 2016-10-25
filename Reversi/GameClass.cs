@@ -32,6 +32,7 @@ namespace Reversi
         public bool ComputerVcomputerMode
         {
             set { this.computerVcomputerMode = value; }
+            get { return this.computerVcomputerMode; }
         }
         public int[,] Field
         {
@@ -134,29 +135,23 @@ namespace Reversi
             while (current.whoAmI == computer && !GameOver)
             {
                 if (GameOver) return;
-                try
-                {
-                    Point move = ((AILogic)current).getMove(this);
-                    this.makeMove(move.X, move.Y);
-                }
-                catch
-                {
-                    changeCurrent();
-                    updateGameOver();
-                }
-                //updateGameOver();
+                Point move = ((AILogic)current).getMove(this);
+                this.makeMove(move.X, move.Y);
+                if (ComputerVcomputerMode) break;
             }
         }
 
         public void mouseEvent(Point p)
         {
+            if (current.whoAmI == computer) return;
+
             int x = p.X * this.dimension / this.Screen.Width;
             int y = p.Y * this.dimension / this.Screen.Height;
             //this.movesMade.Push(this.Logic.Field);
             if (this.current.checkMove(x, y)) makeMove(x, y);
             if (current.whoAmI == computer && !GameOver)
             {
-                if (!computerVcomputerMode) this.updateForm();
+                this.updateForm();
                 computerMove();
             }
 
@@ -184,6 +179,7 @@ namespace Reversi
 
         private void updateGameOver()
         {
+            if (GameOver) return;
             previousCouldMove = lastCanMove;
             lastCanMove = current.canPlayerMove();
             if (!lastCanMove)

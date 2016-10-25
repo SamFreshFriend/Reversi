@@ -80,9 +80,8 @@ namespace Reversi
         {
             Game.mouseEvent(e.Location);
             this.checkLabels();
-            //this.backButton.Enabled = (this.Game.MovesMade.Count != 0);
             Game_panel.Invalidate();
-
+            if (Game.GameOver && Game.ComputerVcomputerMode) stopThread();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -120,15 +119,21 @@ namespace Reversi
             this.Refresh();
         }
 
+        public void RunAIGame()
+        {
+            while (thread != null)
+            {
+                Game.computerMove();
+            }
+        }
 
         public void startThread()
         {
             this.checkLabels();
             StartStopButton.Text = "Stop";
             this.Refresh();
-            thread = new Thread(Game.computerMove);
+            thread = new Thread(this.RunAIGame);
             thread.Start();
-            
         }
 
         public void stopThread()
@@ -144,8 +149,6 @@ namespace Reversi
 
             if (StartStopButton.Text == "Start") startThread();
             else if (StartStopButton.Text == "Stop") stopThread();
-
-
         }
 
     }
