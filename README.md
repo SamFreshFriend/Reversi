@@ -11,7 +11,7 @@ en optimalisaties toegevoegd, hieronder zullen we een deel hiervan beschrijven.
   * We hebben de mogelijkheid toegevoegd om 1 of beide spelers door een computer
     door een computer te vervangen. Hierdoor kan de gebruiker tegen de computer
     spelen of zelfs kijken hoe 2 computers tegen elkaar spelen.
-    
+
     Om dit mogelijk te maken hebben wij een AI voor het spel Reversi geschreven.
     Onze AI zoekt 6 zetten 'diep' naar de beste zet met het [MiniMax
     algoritme](https://en.wikipedia.org/wiki/Minimax). Om te bepalen hoe goed
@@ -26,7 +26,7 @@ en optimalisaties toegevoegd, hieronder zullen we een deel hiervan beschrijven.
     De AILogic.getBoardScore methode geeft de punten van alle plekken waar de
     AI een steen heeft min de punten van alle plekken waar zijn tegenstander een
     steen heeft.
-    
+
     Behalve wanneer de maximale diepte is bereikt moet er nog op een ander een
     moment een score van een bord berekend worden, namelijk als het game over is
     tijdens het zoeken. In dat geval kan namelijk niet dieper worden gezocht (er
@@ -35,7 +35,7 @@ en optimalisaties toegevoegd, hieronder zullen we een deel hiervan beschrijven.
     score, waarbij de positie van de stenen niet meer wordt meegerekent, aan het
     eind maakt het immers niet uit waar de stenen liggen, als je er maar het
     meest hebt.
-    
+
     Nadat we dit hadden geimplementeerd werkte onze AI al best redelijk, het kon
     echter maar 3 zetten diep zoeken, voordat het te lang duurde om de beste zet
     te vinden. Hierdoor was het iets te makkelijk om onze AI te verslaan. Omdat
@@ -49,15 +49,32 @@ en optimalisaties toegevoegd, hieronder zullen we een deel hiervan beschrijven.
     dieper kan zoeken. Na deze optimalisatie kon de AI zonder veel tijd te
     gebruiken 6 diep zoeken, in plaats van 3 diep. Dit heeft er voor gezocht
     dat de AI een stuk beter is en een goede tegenstander is voor de gebruiker.
-    
+
   * Onze code heeft de mogelijkheid om op een arbritair veld van mijn minimaal
     3 bij 3 vakjes te werken, in plaats van alleen op een 6 bij 6 veld. Daarom
     hebben wij door middel van een ListBox in de UI de gebruiker de keuze
-    gegeven tussen een aantal verschillende bord afmetingen.
+    gegeven tussen een aantal verschillende veldgroottes
+
+
+### Gameplay
+
+Om een spel te starten dient er op de (windows Vista) start knop gedrukt worden
+waarna vervolgens een nieuw spel aangemaakt wordt, het is ook mogelijk een
+andere veldgrootte te selecteren in de combobox en de player mode (Computer of
+user ) kan worden gekozen met de checkboxes aan de linker kant van de UI.
+
+In computer versus player modus begint de speler en zal de computer automatisch
+'antwoord' geven door middel van een zet.
 
 Voorbeeld van Gameplay tegen computer:
 
 ![alt tag](https://raw.githubusercontent.com/SamFreshFriend/Reversi/master/CompVPlayer.gif)
+
+In computer versus computer modus dient er na op de Vista knop geklikt te hebben
+ook nog op de 'Start/ Stop' knop gedrukt worden. Dit start het proces wat de
+Gameplay simuleert. Bij het drukken op de stop knop wordt de simulatie
+gepauzeerd en het veld geupdate. De simulatie kan vervolgd worden door de 'Start/
+Stop' knop weder in te drukken.
 
 Voorbeeld van Gameplay Computer tegen Computer:
 
