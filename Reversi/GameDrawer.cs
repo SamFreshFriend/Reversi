@@ -10,20 +10,25 @@ namespace Reversi
     class GameDrawer
     {
         private int dimension;
+        private bool drawPoss;
         private Size screen;
         private GameLogic logic;
         public Size Screen {
             get { return this.screen; }
             set { this.screen = value; }
         }
+        public bool ChangeDrawPos {
+            set { this.drawPoss = value; }
+        }
         public GameLogic Logic
         {
             set { this.logic = value; }
             get { return this.logic; }
         }
-        public GameDrawer(Size s)
+        public GameDrawer(Size s, bool drawPoss)
         {
             this.Screen = s;
+            this.drawPoss = drawPoss;
 
         }
         public void drawCircles(Graphics gr, int cubeSize)
@@ -64,7 +69,7 @@ namespace Reversi
                 gr.DrawLine(Pens.Green, x, 0, x, this.screen.Height);
             }
             this.drawCircles(gr, CubeSize);
-            this.drawPossibilities(gr, CubeSize);
+            if (this.drawPoss) this.drawPossibilities(gr, CubeSize);
         }
     }
 }

@@ -51,13 +51,8 @@ namespace Reversi
         {
             get { return field; }
         }
-        public GameLogic LogicRed
-        {
-            set { this.logicRed = value; }
-        }
-        public GameLogic LogicBlue
-        {
-            set { this.logicBlue = value; }
+        public GameDrawer Drawer {
+            get { return this.drawer; }
         }
         public int getBlueScore
         {
@@ -115,7 +110,7 @@ namespace Reversi
             }
         }
 
-        public GameClass(Form1 f, Size sz, int index, bool bluePlayer, bool redPlayer)
+        public GameClass(Form1 f, Size sz, int index, bool bluePlayer, bool redPlayer, bool drawPossibilities)
         {
             this.Form = f;
             this.dimension = index;
@@ -125,7 +120,7 @@ namespace Reversi
             this.current = (bluePlayer == redPlayer) ? ((new Random().Next(2) == 1) ? logicBlue : logicRed) : (bluePlayer == computer) ? logicRed : logicBlue;
             current.Field = field;
             current.updateCurrentPossibilities();
-            this.drawer = new GameDrawer(sz);
+            this.drawer = new GameDrawer(sz, drawPossibilities);
             this.Screen = sz;
             previousCouldMove = lastCanMove = true;
             computerVcomputerMode = bluePlayer == computer && redPlayer == computer;

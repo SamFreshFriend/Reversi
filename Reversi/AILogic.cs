@@ -59,10 +59,10 @@ namespace Reversi
         /// <summary>
         /// Calculates the MiniMax score of this board to depth this.DEPTH.
         /// </summary>
-        /// <param name="Game"></param>
+        /// <param name="Game">Game to clone</param>
         /// <param name="alpha"></param>
         /// <param name="beta"></param>
-        /// <param name="depth"></param>
+        /// <param name="depth">Depth of iteration</param>
         /// <returns></returns>
         private int miniMax(GameClass Game, double alpha, double beta, int depth)
         {
@@ -123,6 +123,7 @@ namespace Reversi
 
                 return minimum;
             }
+            else throw new Exception();
         }
 
         private int getPositionScore(int x, int y)

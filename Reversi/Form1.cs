@@ -19,7 +19,7 @@ namespace Reversi
         public Form1()
         {
             InitializeComponent();
-            this.Game = new GameClass(this, this.Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked);
+            this.Game = new GameClass(this, this.Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked, this.check_Hints.Checked);
 
         }
 
@@ -95,13 +95,13 @@ namespace Reversi
             stopThread();
             switch (combo_GameMode.SelectedIndex)
             {
-                case -1: this.Game = new GameClass(this, Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
-                case 0: this.Game = new GameClass(this, Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
-                case 1: this.Game = new GameClass(this, Game_panel.Size, 8, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
-                case 2: this.Game = new GameClass(this, Game_panel.Size, 10, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
-                case 3: this.Game = new GameClass(this, Game_panel.Size, 12, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
-                case 4: this.Game = new GameClass(this, Game_panel.Size, 14, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
-                case 5: this.Game = new GameClass(this, Game_panel.Size, 16, this.checkBoxB.Checked, this.checkBoxR.Checked); ; break;
+                case -1: this.Game = new GameClass(this, Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked, this.check_Hints.Checked); ; break;
+                case 0: this.Game = new GameClass(this, Game_panel.Size, 6, this.checkBoxB.Checked, this.checkBoxR.Checked, this.check_Hints.Checked); ; break;
+                case 1: this.Game = new GameClass(this, Game_panel.Size, 8, this.checkBoxB.Checked, this.checkBoxR.Checked, this.check_Hints.Checked); ; break;
+                case 2: this.Game = new GameClass(this, Game_panel.Size, 10, this.checkBoxB.Checked, this.checkBoxR.Checked, this.check_Hints.Checked); ; break;
+                case 3: this.Game = new GameClass(this, Game_panel.Size, 12, this.checkBoxB.Checked, this.checkBoxR.Checked, this.check_Hints.Checked); ; break;
+                case 4: this.Game = new GameClass(this, Game_panel.Size, 14, this.checkBoxB.Checked, this.checkBoxR.Checked, this.check_Hints.Checked); ; break;
+                case 5: this.Game = new GameClass(this, Game_panel.Size, 16, this.checkBoxB.Checked, this.checkBoxR.Checked, this.check_Hints.Checked); ; break;
             }
 
             this.checkLabels();
@@ -120,6 +120,11 @@ namespace Reversi
             this.Game_panel.Size = (c.Size.Width <= c.Size.Height) ? new Size(c.Size.Width - 150, c.Size.Width - 150) : new Size(c.Size.Height - 150, c.Size.Height - 150);
             this.L_GameOver.Size = new Size(Game_panel.Size.Width, Game_panel.Size.Height);
             this.Game.Screen = this.Game_panel.Size;
+            this.Refresh();
+        }
+        private void check_Hints_Click(object sender, EventArgs e)
+        {
+            Game.Drawer.ChangeDrawPos = check_Hints.Checked;
             this.Refresh();
         }
 

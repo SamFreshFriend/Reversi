@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.Game_panel = new System.Windows.Forms.Panel();
             this.L_GameOver = new System.Windows.Forms.Label();
+            this.L_Hints = new System.Windows.Forms.Label();
             this.TurnLabel = new System.Windows.Forms.Label();
             this.Score_Blue = new System.Windows.Forms.Label();
             this.Score_Red = new System.Windows.Forms.Label();
@@ -38,6 +39,7 @@
             this.StartStopButton = new System.Windows.Forms.Button();
             this.labelR = new System.Windows.Forms.Label();
             this.checkBoxR = new System.Windows.Forms.CheckBox();
+            this.check_Hints = new System.Windows.Forms.CheckBox();
             this.labelB = new System.Windows.Forms.Label();
             this.checkBoxB = new System.Windows.Forms.CheckBox();
             this.startButton = new System.Windows.Forms.Button();
@@ -56,6 +58,17 @@
             this.Game_panel.TabIndex = 0;
             this.Game_panel.Paint += new System.Windows.Forms.PaintEventHandler(this.Game_panel_Paint);
             this.Game_panel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Game_panel_MouseClick);
+            // 
+            // L_Hints
+            // 
+            this.L_Hints.Text = "Hints?";
+            this.L_Hints.BackColor = System.Drawing.Color.Transparent;
+            this.L_Hints.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.L_Hints.ForeColor = System.Drawing.Color.Green;
+            this.L_Hints.Location = new System.Drawing.Point(600, 10);
+            this.L_Hints.Name = "L_Hints";
+            this.L_Hints.Size = new System.Drawing.Size(65, 16);
+            this.L_Hints.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // L_GameOver
             // 
@@ -151,6 +164,17 @@
             this.checkBoxR.TabIndex = 28;
             this.checkBoxR.UseVisualStyleBackColor = false;
             // 
+            // check_Hints
+            // 
+            this.check_Hints.AutoSize = true;
+            this.check_Hints.BackColor = System.Drawing.Color.Transparent;
+            this.check_Hints.Location = new System.Drawing.Point(623, 35);
+            this.check_Hints.Name = "check_Hints";
+            this.check_Hints.Checked = true;
+            this.check_Hints.Size = new System.Drawing.Size(18, 17);
+            this.check_Hints.UseVisualStyleBackColor = false;
+            this.check_Hints.CheckedChanged += new System.EventHandler(this.check_Hints_Click);
+            // 
             // labelB
             // 
             this.labelB.AutoSize = true;
@@ -209,7 +233,9 @@
             this.ClientSize = new System.Drawing.Size(684, 661);
             this.Controls.Add(this.StartStopButton);
             this.Controls.Add(this.labelR);
+            this.Controls.Add(this.L_Hints);
             this.Controls.Add(this.checkBoxR);
+            this.Controls.Add(this.check_Hints);
             this.Controls.Add(this.labelB);
             this.Controls.Add(this.checkBoxB);
             this.Controls.Add(this.startButton);
@@ -231,7 +257,9 @@
 
         #endregion
 
+
         private System.Windows.Forms.Panel Game_panel;
+        private System.Windows.Forms.Label L_Hints;
         private System.Windows.Forms.Label TurnLabel;
         private System.Windows.Forms.Label Score_Blue;
         private System.Windows.Forms.Label Score_Red;
@@ -240,6 +268,7 @@
         private System.Windows.Forms.Button StartStopButton;
         private System.Windows.Forms.Label labelR;
         private System.Windows.Forms.CheckBox checkBoxR;
+        private System.Windows.Forms.CheckBox check_Hints;
         private System.Windows.Forms.Label labelB;
         private System.Windows.Forms.CheckBox checkBoxB;
         private System.Windows.Forms.Button startButton;
