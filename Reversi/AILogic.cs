@@ -40,8 +40,9 @@ namespace Reversi
             game = Game;
             this.buildCurrentField();
             this.checkPossibilities();
+
             Point move = this.bestMove();
-            return this.bestMove();
+            return move;
         }
         private void buildCurrentField()
         {

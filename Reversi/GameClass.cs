@@ -159,9 +159,9 @@ namespace Reversi
         /// </summary>
         public void computerMove()
         {
-            while (current.whoAmI == computer && !GameOver)
+            while (current.whoAmI == computer && !this.GameOver)
             {
-                if (GameOver) return;
+                // if (GameOver) return;
                 Point move = ((AILogic)current).getMove(this);
                 this.makeMove(move.X, move.Y);
                 if (ComputerVcomputerMode) break;
