@@ -4,8 +4,10 @@ Dit is het Reversi practicum van Sam Beard (5995442) en Marien Raat (5947456).
 
 ### Algemeen
 
-Wij hebben naast de eisen van de opdracht een aantal extra features toegevoegd
-en optimalisaties toegevoegd, hieronder zullen we een deel hiervan beschrijven.
+Voor onze tweede opdracht voor het vak Imperatief Programmeren was het de 
+opdracht om het bordspel Reversi na te maken. Wij hebben zo goed mogelijk aan 
+de eisen van de opdracht voldaan en ook extra features en optimalisaties 
+toegevoegd, zoals onder andere een AI waar tegen te spelen valt.
 
 ### Features
   * We hebben de mogelijkheid toegevoegd om 1 of beide spelers door een computer
