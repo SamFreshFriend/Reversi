@@ -133,9 +133,16 @@ namespace Reversi
         /// </summary>
         public void RunAIGame()
         {
-            while (thread != null)
+            try
             {
-                Game.computerMove();
+                while (thread != null)
+                {
+                    Game.computerMove();
+                }
+            }
+            catch (Exception e)
+            {
+                thread = null;
             }
         }
 
