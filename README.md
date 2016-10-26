@@ -9,8 +9,8 @@ en optimalisaties toegevoegd, hieronder zullen we een deel hiervan beschrijven.
 
 ### Features
   * We hebben de mogelijkheid toegevoegd om 1 of beide spelers door een computer
-    door een computer te vervangen. Hierdoor kan de gebruiker tegen de computer
-    spelen of zelfs kijken hoe 2 computers tegen elkaar spelen.
+    te vervangen. Hierdoor kan de gebruiker tegen de computer spelen of zelfs
+    kijken hoe 2 computers tegen elkaar spelen.
 
     Om dit mogelijk te maken hebben wij een AI voor het spel Reversi geschreven.
     Onze AI zoekt 6 zetten 'diep' naar de beste zet met het [MiniMax
@@ -36,7 +36,20 @@ en optimalisaties toegevoegd, hieronder zullen we een deel hiervan beschrijven.
     eind maakt het immers niet uit waar de stenen liggen, als je er maar het
     meest hebt.
 
-    Nadat we dit hadden geimplementeerd werkte onze AI al best redelijk, het kon
+  * Onze code heeft de mogelijkheid om op een arbritair veld van mijn minimaal
+    3 bij 3 vakjes te werken, in plaats van alleen op een 6 bij 6 veld. Daarom
+    hebben wij door middel van een ListBox in de UI de gebruiker de keuze
+    gegeven tussen een aantal verschillende veldgroottes
+
+  * We hebben de UI extra mooi gemaakt, door middel van een mooie achtergronden
+    voor het scherm en het veld, gekleurde teksten en de vertrouwde Windows
+    Vista 'Start'-knop in plaats van een saaie knop waar 'start' op staat.
+
+  * De gebruiker kan het scherm naar zijn behoefte 'resizen', waarbij het veld
+    steeds van grootte veranderd om het form te vullen.
+
+### Optimalisaties
+  * Nadat we de AI hadden geimplementeerd werkte deze al best redelijk, het kon
     echter maar 3 zetten diep zoeken, voordat het te lang duurde om de beste zet
     te vinden. Hierdoor was het iets te makkelijk om onze AI te verslaan. Omdat
     de tijd om het te berekenen exponentieel toeneemt hoe dieper de AI zoekt,
@@ -50,11 +63,10 @@ en optimalisaties toegevoegd, hieronder zullen we een deel hiervan beschrijven.
     gebruiken 6 diep zoeken, in plaats van 3 diep. Dit heeft er voor gezocht
     dat de AI een stuk beter is en een goede tegenstander is voor de gebruiker.
 
-  * Onze code heeft de mogelijkheid om op een arbritair veld van mijn minimaal
-    3 bij 3 vakjes te werken, in plaats van alleen op een 6 bij 6 veld. Daarom
-    hebben wij door middel van een ListBox in de UI de gebruiker de keuze
-    gegeven tussen een aantal verschillende veldgroottes
-
+  * Onze methode die checked of een zet legaal is, bewaart een lijst van
+    richtingen waarin er stenen vervangen zullen worden en onze methode om een
+    zet door te voeren gebruikt deze lijst om de stenen te vervangen. Zo wordt
+    minder werk dubbel gedaan.
 
 ### Gameplay
 
