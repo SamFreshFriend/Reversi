@@ -46,3 +46,9 @@ Features:
     3 bij 3 vakjes te werken, in plaats van alleen op een 6 bij 6 veld. Daarom
     hebben wij door middel van een ListBox in de UI de gebruiker de keuze
     gegeven tussen een aantal verschillende bord afmetingen.
+
+Voorbeeld van Gameplay tegen computer:
+![alt tag](https://raw.githubusercontent.com/SamFreshFriend/Reversi/master/CompVPlayer.gif)
+
+Voorbeeld van Gameplay Computer tegen Computer:
+![alt tag](https://raw.githubusercontent.com/SamFreshFriend/Reversi/master/CompVComp.gif)
