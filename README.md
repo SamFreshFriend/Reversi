@@ -66,7 +66,7 @@ user ) kan worden gekozen met de checkboxes aan de linker kant van de UI.
 In computer versus player modus begint de speler en zal de computer automatisch
 'antwoord' geven door middel van een zet.
 
-Voorbeeld van Gameplay tegen computer:
+_Voorbeeld van Gameplay tegen computer:_
 
 ![alt tag](https://raw.githubusercontent.com/SamFreshFriend/Reversi/master/CompVPlayer.gif)
 
@@ -76,6 +76,6 @@ Gameplay simuleert. Bij het drukken op de stop knop wordt de simulatie
 gepauzeerd en het veld geupdate. De simulatie kan vervolgd worden door de 'Start/
 Stop' knop weder in te drukken.
 
-Voorbeeld van Gameplay Computer tegen Computer:
+_Voorbeeld van Gameplay Computer tegen Computer:_
 
 ![alt tag](https://raw.githubusercontent.com/SamFreshFriend/Reversi/master/CompVComp.gif)
