@@ -105,7 +105,7 @@ namespace Reversi
 
                 return maximum;
             }
-            else if (Game.Current.Player == this.Opponent)
+            else
             {
                 // It is the opponents turn, so we should minimize
                 int minimum = int.MaxValue;
